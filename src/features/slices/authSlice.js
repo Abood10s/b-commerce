@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const storedUser = JSON.parse(localStorage.getItem("user"));
 
 const initialState = {
+  // !! converts it to Boolean
   authenticated: !!storedUser,
   user: storedUser || null,
 };
