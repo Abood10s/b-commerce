@@ -1,3 +1,9 @@
+import { useSelector } from "react-redux";
+import { Navigate, useLocation } from "react-router-dom";
+import { PATHS } from "../Routes";
+import LoginForm from "../components/forms/LoginForm";
+import SignupForm from "../components/forms/SignupForm";
+
 export const ENDPOINTS = {
   // Auth
   SIGNUP: "/Auth/Register",
@@ -33,4 +39,20 @@ export const ENDPOINTS = {
   SUBCATEGORY_CREATE: "/Subcategory/Create",
   SUBCATEGORY_UPDATE: "/Subcategory/Update",
   SUBCATEGORY_DELETE: "/Subcategory/Delete",
+};
+export const AuthenticatedUserRedirect = () => {
+  const authenticated = useSelector((state) => state.auth.authenticated);
+  const location = useLocation(); // Get the current location/path
+
+  if (authenticated) {
+    return <Navigate to={PATHS.HOME} />;
+  }
+
+  if (location.pathname === PATHS.LOGIN) {
+    return <LoginForm />;
+  }
+
+  if (location.pathname === PATHS.SIGNUP) {
+    return <SignupForm />;
+  }
 };

@@ -27,23 +27,19 @@ const LoginForm = () => {
         const response = await login(values).unwrap(); // Get the resolved data directly
 
         if (response.isSuccess) {
-          dispatch(setAuth(response.data));
-          console.log("Login successful", response);
-          navigate("/");
+          dispatch(
+            setAuth({
+              user: response.data.user,
+              token: response.data.token,
+            })
+          );
+          console.log("Login successful", response.data);
+          navigate(PATHS.HOME); // Redirect to the original route or home if not available
           resetForm();
-        } else {
-          console.error("Login failed: ", response.message);
         }
-        // Optionally, display an error message to the user
-        alert(response.message || "Login failed. Please try again.");
       } catch (error) {
-        console.error("Login failed", error);
+        console.error("Login failed");
       }
-
-      // resetForm({
-      //   email: "",
-      //   password: "",
-      // });
     },
   });
 

@@ -6,7 +6,8 @@ import "../LoginForm";
 import { useRegisterMutation } from "../../../features/api/authApi";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../../features/slices/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { PATHS } from "../../../Routes";
 
 const SignupForm = () => {
   const [register, { isLoading }] = useRegisterMutation();
@@ -35,7 +36,7 @@ const SignupForm = () => {
           dispatch(setAuth(response.data));
           console.log("Signup successful", response);
           resetForm();
-          navigate("/");
+          navigate(PATHS.HOME);
         } else {
           console.error("Signup failed: ", response.message);
           // Optionally, display an error message to the user
@@ -101,6 +102,12 @@ const SignupForm = () => {
       <button type="submit" className="login-button" disabled={isLoading}>
         {isLoading ? "Registering..." : "Register"}
       </button>
+      <h4>
+        Already Have An Account?
+        <Link className="register-link" to={PATHS.LOGIN}>
+          Login
+        </Link>
+      </h4>
     </form>
   );
 };
