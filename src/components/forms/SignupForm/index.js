@@ -29,11 +29,18 @@ const SignupForm = () => {
       const { confirmPassword, ...dataToSubmit } = values;
 
       try {
-        const response = await register(dataToSubmit).unwrap();
-        dispatch(setAuth(response));
-        console.log("Signup successful", response);
-        resetForm();
-        navigate("/");
+        const response = await register(dataToSubmit).unwrap(); // Get the resolved data directly
+
+        if (response.isSuccess) {
+          dispatch(setAuth(response.data));
+          console.log("Signup successful", response);
+          resetForm();
+          navigate("/");
+        } else {
+          console.error("Signup failed: ", response.message);
+          // Optionally, display an error message to the user
+          alert(response.message || "Signup failed. Please try again.");
+        }
       } catch (error) {
         console.error("Signup failed", error);
       }

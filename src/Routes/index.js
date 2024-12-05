@@ -3,6 +3,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import SignupForm from "../components/forms/SignupForm";
 
 const LoginForm = lazy(() => import("../components/forms/LoginForm"));
+const HomePage = lazy(() => import("../pages/Home"));
 
 export const PATHS = {
   SIGNUP: "/signup",
@@ -15,7 +16,7 @@ export const router = [
   { path: PATHS.SIGNUP, element: <SignupForm /> },
   {
     element: <ProtectedRoute />,
-    children: [{ path: PATHS.HOME, element: <h1>Nigger Home</h1> }],
+    children: [{ path: PATHS.HOME, element: <HomePage /> }],
   },
   { path: "*", element: <h1>Page Doesn't Exist lil Nigga </h1> },
 ];

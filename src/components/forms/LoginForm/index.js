@@ -25,10 +25,17 @@ const LoginForm = () => {
     onSubmit: async (values, { resetForm }) => {
       try {
         const response = await login(values).unwrap(); // Get the resolved data directly
-        dispatch(setAuth(response));
-        console.log("Login successful", response);
-        resetForm();
-        navigate("/");
+
+        if (response.isSuccess) {
+          dispatch(setAuth(response.data));
+          console.log("Login successful", response);
+          navigate("/");
+          resetForm();
+        } else {
+          console.error("Login failed: ", response.message);
+        }
+        // Optionally, display an error message to the user
+        alert(response.message || "Login failed. Please try again.");
       } catch (error) {
         console.error("Login failed", error);
       }
