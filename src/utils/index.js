@@ -9,12 +9,20 @@ export const ENDPOINTS = {
   SIGNUP: "/Auth/Register",
   LOGIN: "/Auth/Login",
 
-  // Category
+  //Category
   CATEGORY_GET_ALL: "/Category/GetAll",
   CATEGORY_GET_ONE: "/Category/GetOne",
   CATEGORY_CREATE: "/Category/Create",
   CATEGORY_UPDATE: "/Category/Update",
   CATEGORY_DELETE: "/Category/Delete",
+
+  // Subcategory
+  SUBCATEGORY_GET_ALL: "/Subcategory/GetAll",
+  SUBCATEGORY_GET_BY_CATEGORY: "/Subcategory/GetAllBycategory",
+  SUBCATEGORY_GET_ONE: "/Subcategory/GetOne",
+  SUBCATEGORY_CREATE: "/Subcategory/Create",
+  SUBCATEGORY_UPDATE: "/Subcategory/Update",
+  SUBCATEGORY_DELETE: "/Subcategory/Delete",
 
   // Order
   ORDER_GET_ORDERS: "/Order/GetOrders",
@@ -31,14 +39,6 @@ export const ENDPOINTS = {
   PRODUCT_CREATE: "/Product/Create",
   PRODUCT_UPDATE: "/Product/Update",
   PRODUCT_DELETE: "/Product/Delete",
-
-  // Subcategory
-  SUBCATEGORY_GET_ALL: "/Subcategory/GetAll",
-  SUBCATEGORY_GET_BY_CATEGORY: "/Subcategory/GetAllBycategory",
-  SUBCATEGORY_GET_ONE: "/Subcategory/GetOne",
-  SUBCATEGORY_CREATE: "/Subcategory/Create",
-  SUBCATEGORY_UPDATE: "/Subcategory/Update",
-  SUBCATEGORY_DELETE: "/Subcategory/Delete",
 };
 export const AuthenticatedUserRedirect = () => {
   const authenticated = useSelector((state) => state.auth.authenticated);
@@ -55,4 +55,13 @@ export const AuthenticatedUserRedirect = () => {
   if (location.pathname === PATHS.SIGNUP) {
     return <SignupForm />;
   }
+};
+export const AdminToken = ({ children }) => {
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
+
+  if (user?.userTypeName === "Admin" && user?.userType === 1) {
+    return children;
+  }
+  return <Navigate to={PATHS.HOME} />;
 };

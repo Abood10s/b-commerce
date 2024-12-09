@@ -26,17 +26,22 @@ const SignupForm = () => {
     },
     validationSchema: SignupSchema,
     onSubmit: async (values, { resetForm }) => {
-      //this excludes confirmPassword from sending to API
       const { confirmPassword, ...dataToSubmit } = values;
 
       try {
         const response = await register(dataToSubmit).unwrap(); // Get the resolved data directly
 
         if (response.isSuccess) {
-          dispatch(setAuth(response.data));
-          console.log("Signup successful", response);
+          const { user, token } = response.data; // Destructure directly if the structure is flat
+          dispatch(
+            setAuth({
+              user,
+              token,
+            })
+          );
+          console.log("Signup successful", response.data);
+          navigate(PATHS.HOME); // Redirect to home after successful signup
           resetForm();
-          navigate(PATHS.HOME);
         } else {
           console.error("Signup failed: ", response.message);
           // Optionally, display an error message to the user

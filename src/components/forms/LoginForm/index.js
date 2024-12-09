@@ -24,7 +24,7 @@ const LoginForm = () => {
     validationSchema: loginSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
-        const response = await login(values).unwrap(); // Get the resolved data directly
+        const response = await login(values).unwrap();
 
         if (response.isSuccess) {
           dispatch(
@@ -34,7 +34,7 @@ const LoginForm = () => {
             })
           );
           console.log("Login successful", response.data);
-          navigate(PATHS.HOME); // Redirect to the original route or home if not available
+          navigate(PATHS.HOME);
           resetForm();
         }
       } catch (error) {
@@ -69,12 +69,21 @@ const LoginForm = () => {
       <button type="submit" className="login-button" disabled={isLoading}>
         {isLoading ? "Logging in..." : "Log in"}
       </button>
-      <h4>
+      <div>
         Dont Have An Account?{" "}
         <Link className="register-link" to={PATHS.SIGNUP}>
           Register
         </Link>
-      </h4>
+        {/* {error && <h4>{error}</h4>}
+        {isError && (
+          <h4>
+            {error?.data?.message ||
+              error?.error ||
+              error?.statusText ||
+              "An unexpected error occurred. Please try again."}
+          </h4>
+        )} */}
+      </div>
     </form>
   );
 };

@@ -1,0 +1,89 @@
+/* Container for the entire dashboard */
+
+.dashboard-container {
+    padding: 30px;
+    background-color: #f4f7fc;
+    min-height: 100vh;
+}
+
+
+/* Heading styling */
+
+.dashboard-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+
+/* Flex container for dashboard links */
+
+.dashboard-links {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+/* Individual link tiles */
+
+.dashboard-tile {
+    background-color: #fff;
+    padding: 20px;
+    width: 250px;
+    height: 150px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+
+/* Tile title styling */
+
+.tile-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #333;
+}
+
+
+/* Hover effect for the tiles */
+
+.dashboard-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Hover effect for tile title text */
+
+.dashboard-tile:hover .tile-title {
+    color: #007bff;
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+    .dashboard-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    .dashboard-tile {
+        width: 200px;
+        height: 120px;
+    }
+    .dashboard-heading {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+}
