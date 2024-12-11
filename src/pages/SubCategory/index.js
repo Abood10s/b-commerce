@@ -96,7 +96,7 @@ const SubCategory = () => {
 
         if (response?.data) {
           toast.success("Subcategory updated successfully!");
-          setEditingSubcategoryId(null); // Close edit mode
+          setEditingSubcategoryId(null);
         }
       } catch (error) {
         console.error("Error updating subcategory:", error);

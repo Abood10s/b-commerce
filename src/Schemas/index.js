@@ -31,3 +31,18 @@ export const SignupSchema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "Passwords must match") // Ensure the confirmPassword matches the password
     .required("Confirm password is required"),
 });
+
+export const productSchema = yup.object().shape({
+  name: yup.string().required("Product name is required."),
+  description: yup.string().required("Description is required."),
+  subcategoryId: yup.number().required("Subcategory ID is required."),
+  price: yup
+    .number()
+    .min(0, "Price must be greater than 0")
+    .required("Price is required."),
+  discount: yup
+    .number()
+    .min(0, "Discount must be at least 0")
+    .required("Discount is required."),
+  image: yup.mixed().required("Main image is required."), // Main image validation
+});

@@ -1,7 +1,13 @@
 import React from "react";
 
+import ProductForm from "../../components/CreateProductForm";
+
 const Product = () => {
-  return <div>Product</div>;
+  return (
+    <div>
+      <ProductForm />
+    </div>
+  );
 };
 
 export default Product;
