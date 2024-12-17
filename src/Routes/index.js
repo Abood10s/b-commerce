@@ -1,12 +1,18 @@
 import { lazy } from "react";
 import ProtectedRoute from "../components/ProtectedRoute";
-import { AdminToken, AuthenticatedUserRedirect } from "../utils";
-import Cart from "../pages/Cart";
+import withAdminToken, { AuthenticatedUserRedirect } from "../utils";
+
 import Dashboard from "../pages/Dashboard";
+import ProductForm from "../components/CreateProductForm";
+import SingleProduct from "../pages/SingleProduct/index.js";
+import Cart from "../pages/Cart/index.js";
 const HomePage = lazy(() => import("../pages/Home"));
 const Category = lazy(() => import("../pages/Category"));
 const SubCategory = lazy(() => import("../pages/SubCategory"));
 const Product = lazy(() => import("../pages/Product"));
+const ControlProducts = lazy(() =>
+  import("../pages/Dashboard/ControlProducts.js")
+);
 
 export const PATHS = {
   SIGNUP: "/signup",
@@ -14,9 +20,6 @@ export const PATHS = {
   HOME: "/",
   DASHBOARD: "/dashboard",
   CART: "/cart",
-  DASHBOARD_CATEGORY: "/dashboard/category",
-  DASHBOARD_SUBCATEGORY: "/dashboard/subcategory",
-  DASHBOARD_PRODUCT: "/dashboard/product",
 };
 
 export const router = [
@@ -33,36 +36,36 @@ export const router = [
     children: [
       { path: PATHS.HOME, element: <HomePage /> },
       {
+        path: `products/:id`,
+        element: <SingleProduct />,
+      },
+      {
+        path: PATHS.CART,
+        element: <Cart />,
+      },
+      {
         path: PATHS.DASHBOARD,
-        element: (
-          <AdminToken>
-            <Dashboard />
-          </AdminToken>
-        ),
+        element: withAdminToken(Dashboard),
       },
       {
         path: `${PATHS.DASHBOARD}/category`,
-        element: (
-          <AdminToken>
-            <Category />
-          </AdminToken>
-        ),
+        element: withAdminToken(Category),
       },
       {
         path: `${PATHS.DASHBOARD}/subcategory`,
-        element: (
-          <AdminToken>
-            <SubCategory />
-          </AdminToken>
-        ),
+        element: withAdminToken(SubCategory),
       },
       {
         path: `${PATHS.DASHBOARD}/product`,
-        element: (
-          <AdminToken>
-            <Product />
-          </AdminToken>
-        ),
+        element: withAdminToken(Product),
+      },
+      {
+        path: `${PATHS.DASHBOARD}/product/create`,
+        element: withAdminToken(ProductForm),
+      },
+      {
+        path: `${PATHS.DASHBOARD}/product/control`,
+        element: withAdminToken(ControlProducts),
       },
     ],
   },

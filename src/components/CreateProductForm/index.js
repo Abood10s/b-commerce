@@ -7,14 +7,15 @@ import { useGetProductsQuery } from "../../features/api/productsApi"; // Import 
 import { toast } from "react-toastify";
 import SelectComponent from "./SelectComponent";
 import "./style.css";
+
 const ProductForm = () => {
   const { data: subcategories, isLoading: subcategoriesLoading } =
     useGetAllSubCategoriesQuery();
   const [createProduct, { isLoading: isCreating }] = useCreateProductMutation();
   const { data: products, isLoading: productsLoading } = useGetProductsQuery({
-    page: 1, // Pass any required params
-    subcategoryId: 1, // Example parameter
-  }); // Fetch all products
+    page: 1,
+    subcategoryId: 1,
+  });
   const [createdProductId, setCreatedProductId] = React.useState(null);
 
   const formik = useFormik({
@@ -24,14 +25,13 @@ const ProductForm = () => {
       subcategoryId: "",
       price: "",
       discount: "",
-      image: null, // Main image
-      images: [], // Additional images
+      image: null,
+      images: [],
     },
     validationSchema: productSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       const formData = new FormData();
 
-      // Append form values to FormData
       formData.append("name", values.name);
       formData.append("description", values.description);
       formData.append("subcategoryId", values.subcategoryId);
@@ -57,9 +57,8 @@ const ProductForm = () => {
 
       try {
         const response = await createProduct(formData);
-        const productId = response?.data?.id;
-        setCreatedProductId(productId);
         toast.success("Product created successfully!");
+        resetForm();
       } catch (error) {
         console.error("Error creating product:", error);
         toast.error("Error creating product. Please try again.");

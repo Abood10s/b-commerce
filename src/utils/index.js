@@ -65,3 +65,12 @@ export const AdminToken = ({ children }) => {
   }
   return <Navigate to={PATHS.HOME} />;
 };
+
+const withAdminToken = (Component) => {
+  return (
+    <AdminToken>
+      <Component />
+    </AdminToken>
+  );
+};
+export default withAdminToken;

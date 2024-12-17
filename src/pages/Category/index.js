@@ -79,7 +79,7 @@ const Category = () => {
   };
 
   return (
-    <div className="category-container">
+    <div className="category-dashboard-container">
       <h2>Create a New Category</h2>
       <form onSubmit={handleSubmit} className="category-form">
         <div className="form-group">
@@ -163,7 +163,6 @@ const Category = () => {
         )}
       </ul>
 
-      {/* Add the ToastContainer to display toasts */}
       <ToastContainer />
     </div>
   );

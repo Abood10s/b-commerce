@@ -29,7 +29,7 @@ export const productApi = createApi({
     }),
     getProductsByCategory: builder.query({
       query: (categoryId) =>
-        `/Product/GetProductsByCategory?categoryId=${categoryId}`,
+        `/Product/GetProductsByCategoty?categoryId=${categoryId}`,
     }),
     getProductsBySubcategory: builder.query({
       query: (subcategoryId) =>

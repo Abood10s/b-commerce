@@ -4,7 +4,6 @@ const storedUser = JSON.parse(localStorage.getItem("user"));
 const storedUserToken = JSON.parse(localStorage.getItem("token"));
 
 const initialState = {
-  // !! converts it to Boolean
   authenticated: !!storedUser && !!storedUserToken,
   user: storedUser || null,
   token: storedUserToken || null,

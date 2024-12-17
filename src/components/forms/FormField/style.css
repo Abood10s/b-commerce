@@ -10,7 +10,7 @@
 }
 
 .input {
-    width: 90%;
+    width: 80%;
     display: block;
     padding: 15px;
     border: 1px solid rgba(118, 118, 118, 0.192);
@@ -42,4 +42,10 @@
 
 .submit-button:hover {
     background-color: #0056b3;
+}
+
+@media (max-width: 800px) {
+    .input {
+        width: 90%;
+    }
 }

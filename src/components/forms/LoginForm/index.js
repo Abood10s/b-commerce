@@ -4,7 +4,6 @@ import { loginSchema } from "../../../Schemas";
 import FormField from "../FormField";
 import "./style.css";
 import { Link, useNavigate } from "react-router-dom";
-
 import { useLoginMutation } from "../../../features/api/authApi";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../../features/slices/authSlice";
@@ -44,47 +43,52 @@ const LoginForm = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="login-form">
-      <h1 className="welcoming-heading">Welcome To Edfa3 Banky</h1>
-
-      <FormField
-        label="Email Address"
-        id="email"
-        handleChange={formik.handleChange}
-        handleBlur={formik.handleBlur}
-        value={formik.values.email}
-        error={formik.touched.email && formik.errors.email}
-        placeholder="Enter Email Address"
-      />
-      <FormField
-        label="Password"
-        id="password"
-        type="password"
-        handleChange={formik.handleChange}
-        handleBlur={formik.handleBlur}
-        value={formik.values.password}
-        error={formik.touched.password && formik.errors.password}
-        placeholder="Enter Password"
-      />
-      <button type="submit" className="login-button" disabled={isLoading}>
-        {isLoading ? "Logging in..." : "Log in"}
-      </button>
-      <div>
-        Dont Have An Account?{" "}
-        <Link className="register-link" to={PATHS.SIGNUP}>
-          Register
-        </Link>
-        {/* {error && <h4>{error}</h4>}
-        {isError && (
-          <h4>
-            {error?.data?.message ||
-              error?.error ||
-              error?.statusText ||
-              "An unexpected error occurred. Please try again."}
-          </h4>
-        )} */}
+    <div className="login-page-container">
+      <div className="login-image">
+        <h3>
+          Welcome To <p className="color-text">Edfa3 Banky</p>
+        </h3>
       </div>
-    </form>
+      <div className="form-cont">
+        <form onSubmit={formik.handleSubmit} className="login-form">
+          <div className="form-header">
+            <div
+              className="logo"
+              style={{ maxWidth: "50px", marginBottom: "2rem" }}
+            ></div>
+          </div>
+
+          <FormField
+            label="Email Address"
+            id="email"
+            handleChange={formik.handleChange}
+            handleBlur={formik.handleBlur}
+            value={formik.values.email}
+            error={formik.touched.email && formik.errors.email}
+            placeholder="Enter Email Address"
+          />
+          <FormField
+            label="Password"
+            id="password"
+            type="password"
+            handleChange={formik.handleChange}
+            handleBlur={formik.handleBlur}
+            value={formik.values.password}
+            error={formik.touched.password && formik.errors.password}
+            placeholder="Enter Password"
+          />
+          <button type="submit" className="login-button" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Log in"}
+          </button>
+          <div>
+            Don’t Have An Account?{" "}
+            <Link className="register-link" to={PATHS.SIGNUP}>
+              Register
+            </Link>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

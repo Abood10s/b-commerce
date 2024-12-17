@@ -110,7 +110,6 @@ const SubCategory = () => {
     setEditedSubcategoryName("");
   };
 
-  // Delete function
   const handleDeleteClick = async (subcategoryId) => {
     try {
       await deleteSubCategory(subcategoryId);
@@ -124,7 +123,7 @@ const SubCategory = () => {
   const categoryList = Array.isArray(categories?.data) ? categories.data : [];
 
   return (
-    <div className="subcategory-container">
+    <div className="subcategory-dashboard-container">
       <h2 className="subcategory-heading">Create a New Subcategory</h2>
       <form onSubmit={handleSubmit} className="subcategory-form">
         <div className="form-group">
@@ -193,6 +192,7 @@ const SubCategory = () => {
               onClick={() => handleCategoryClick(category.id)}
             >
               <h4>{category.name}</h4>
+
               {selectedCategoryId === category.id && (
                 <div>
                   {subCategoriesLoading ? (

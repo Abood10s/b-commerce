@@ -1,0 +1,178 @@
+/* General container for the cart page */
+
+.cart-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+
+/* Title of the cart page */
+
+.cart-title {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+
+/* Empty cart message */
+
+.cart-empty-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #999;
+}
+
+
+/* Cart table styles */
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    /* Enables horizontal scroll */
+}
+
+.cart-table th,
+.cart-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.cart-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+
+/* Footer section for the cart page */
+
+.cart-footer {
+    text-align: right;
+}
+
+
+/* Grand total styling */
+
+.cart-total {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+
+/* Buttons container */
+
+.cart-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+
+/* Clear cart button */
+
+.cart-clear-btn {
+    background-color: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cart-clear-btn:hover {
+    background-color: #c9302c;
+}
+
+
+/* Checkout button */
+
+.cart-checkout-btn {
+    background-color: #5cb85c;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cart-checkout-btn:hover {
+    background-color: #4cae4c;
+}
+
+.order-form {
+    border: 2px solid #ddd;
+    padding: 1rem;
+    margin-top: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.order-form input {
+    display: block;
+    margin-bottom: 10px;
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.order-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.order-form button:hover {
+    background-color: #0056b3;
+}
+
+.order-form .cancel-button {
+    background-color: #6c757d;
+    margin-left: 10px;
+}
+
+.cart-order {
+    background: linear-gradient(135deg, #1c1c1c, #333);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    display: block;
+    margin: 0 auto;
+}
+
+.cart-p-img {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.cart-order:hover {
+    background: white;
+    color: #1c1c1c;
+    outline: 1px solid #2c2c2c;
+}
+
+.order-form .cancel-button:hover {
+    background-color: #5a6268;
+}
+
+@media (max-width: 600px) {
+    .cart-table {
+        font-size: 0.875rem;
+    }
+}

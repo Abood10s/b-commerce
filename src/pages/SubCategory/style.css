@@ -1,16 +1,13 @@
 /* Container for the entire subcategory form and list */
 
-.subcategory-container {
+.subcategory-dashboard-container {
     padding: 30px;
     background-color: #f9f9f9;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 2rem auto;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-
-
-/* Heading styling */
 
 .subcategory-heading,
 .subcategories-heading {
@@ -19,9 +16,6 @@
     color: #333;
     margin-bottom: 20px;
 }
-
-
-/* Form styling */
 
 .subcategory-form {
     background-color: #fff;
@@ -63,9 +57,6 @@
     font-size: 1rem;
 }
 
-
-/* Submit button styling */
-
 .btn-submit {
     padding: 12px 20px;
     background-color: #4CAF50;
@@ -79,9 +70,6 @@
 .btn-submit:disabled {
     background-color: #ccc;
 }
-
-
-/* Subcategory list styling */
 
 .subcategory-list {
     list-style: none;
@@ -103,9 +91,6 @@
     text-align: center;
 }
 
-
-/* Category and Subcategory Styles */
-
 .category-list {
     margin-top: 30px;
 }
@@ -125,61 +110,35 @@
     border-radius: 4px;
 }
 
-
-/* Align items inside .subcategory-item-content */
-
 .subcategory-item-content {
     display: flex;
     justify-content: space-between;
-    /* Space buttons to edges */
     align-items: center;
-    /* Align vertically in the center */
     width: 100%;
-    /* Ensure it uses the full width */
 }
-
-
-/* Align buttons properly */
 
 .subcategory-item-content button {
     margin-left: 10px;
-    /* Space between buttons */
 }
-
-
-/* Ensure Edit and Delete buttons align properly */
 
 .subcategory-item-content .btn-edit {
     margin-left: 10px;
-    /* Add margin to left of Edit button */
 }
-
-
-/* Flex for subcategory-edit-form */
 
 .subcategory-edit-form {
     display: flex;
     align-items: center;
-    /* Vertically center the input and buttons */
 }
 
 .subcategory-edit-form input {
     padding: 8px;
     width: 200px;
     margin-right: 10px;
-    /* Space between the input and buttons */
 }
-
-
-/* Ensure buttons are aligned properly */
 
 .subcategory-edit-form button {
     margin-left: 5px;
-    /* Space between save and cancel buttons */
 }
-
-
-/* General Styles */
 
 .subcategory-container {
     padding: 20px;
@@ -254,11 +213,8 @@
     color: white;
 }
 
-
-/* Responsive Styles */
-
 @media (max-width: 768px) {
-    .subcategory-container {
+    .subcategory-dashboard-container {
         padding: 15px;
     }
     .subcategory-item-content {
@@ -269,11 +225,8 @@
     }
 }
 
-
-/* Responsive Design */
-
 @media (max-width: 768px) {
-    .subcategory-container {
+    .subcategory-dashboard-container {
         padding: 15px;
     }
     .subcategory-form {
