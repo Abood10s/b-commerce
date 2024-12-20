@@ -10,8 +10,8 @@ const MainBanner = () => {
           Discover amazing deals and offers on our products.
         </p>
         <button className="banner-button">Shop Now</button>
-        <div class="bounce">
-          <div class="dot"></div>
+        <div className="bounce">
+          <div className="dot"></div>
         </div>
       </div>
     </div>

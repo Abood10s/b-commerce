@@ -37,9 +37,13 @@
     height: 150px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    outline: 3px solid rgb(13, 170, 13);
+    background-color: rgba(127, 255, 212, 0.189);
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: center;
+    gap: 5px;
     text-align: center;
     color: #333;
     text-decoration: none;
@@ -61,13 +65,6 @@
 .dashboard-tile:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-}
-
-
-/* Hover effect for tile title text */
-
-.dashboard-tile:hover .tile-title {
-    color: #007bff;
 }
 
 

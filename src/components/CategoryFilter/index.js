@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-const ChipContainer = styled.div`
+
+export const ChipContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -22,13 +23,23 @@ export const Chip = styled.span`
     color: #fff;
     border: 1px solid #fff;
   }
+
   &:hover {
     background-color: #123;
     color: #fff;
     border: 1px solid #fff;
     transition: all 0.3s ease;
   }
+
+  &.category-chip {
+    border-color: #e0e0e0;
+  }
+
+  &.subcategory-chip {
+    border-color: orange;
+  }
 `;
+
 const CategoryFilter = ({
   categories,
   selectedCategoryId,
@@ -41,7 +52,11 @@ const CategoryFilter = ({
     <div>
       <ChipContainer>
         <Chip
-          className={`chip ${selectedCategoryId === null ? "active" : ""}`}
+          className={`chip ${
+            selectedCategoryId === null
+              ? "active category-chip"
+              : "category-chip"
+          }`}
           onClick={() => handleCategoryClick(null)}
         >
           All
@@ -49,7 +64,11 @@ const CategoryFilter = ({
         {categories.map((cat) => (
           <Chip
             key={cat.id}
-            className={`chip ${selectedCategoryId === cat.id ? "active" : ""}`}
+            className={`chip ${
+              selectedCategoryId === cat.id
+                ? "active category-chip"
+                : "category-chip"
+            }`}
             onClick={() => handleCategoryClick(cat.id)}
           >
             {cat.name}
@@ -63,7 +82,9 @@ const CategoryFilter = ({
             <Chip
               key={subCat.id}
               className={`chip ${
-                selectedSubcategoryId === subCat.id ? "active" : ""
+                selectedSubcategoryId === subCat.id
+                  ? "active subcategory-chip"
+                  : "subcategory-chip"
               }`}
               onClick={() => handleSubcategoryClick(subCat.id)}
             >

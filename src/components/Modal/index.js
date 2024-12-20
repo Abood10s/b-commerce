@@ -1,13 +1,13 @@
-import React from "react";
-import "./style.css"; // Modal styles
 import ReactDOM from "react-dom";
+import React from "react";
+import "./style.css";
+
 const Modal = ({
   isOpen,
   onClose,
   onSubmit,
-  formData,
+  orderFormData,
   handleInputChange,
-  handleQuantityChange,
   selectedProduct,
 }) => {
   return ReactDOM.createPortal(
@@ -17,12 +17,12 @@ const Modal = ({
           <h2>Order Form</h2>
           <form onSubmit={onSubmit} className="order-form">
             <div className="order-form-header">
-              <img
+              {/* Uncomment below lines if you need to display the product image */}
+              {/* <img
                 src={`${process.env.REACT_APP_API_SINGLE_PRODUCT_MAIN_IMAGE_URL}${selectedProduct.image}`}
                 alt={selectedProduct.name}
                 className="cart-p-img"
-              />
-              <p>{selectedProduct.name}</p>
+              /> */}
             </div>
             <div>
               <label>
@@ -30,7 +30,7 @@ const Modal = ({
                 <input
                   type="text"
                   name="phoneNumber"
-                  value={formData.phoneNumber}
+                  value={orderFormData.phoneNumber}
                   onChange={handleInputChange}
                 />
               </label>
@@ -41,7 +41,7 @@ const Modal = ({
                 <input
                   type="text"
                   name="location"
-                  value={formData.location}
+                  value={orderFormData.location}
                   onChange={handleInputChange}
                 />
               </label>
@@ -52,21 +52,8 @@ const Modal = ({
                 <input
                   type="text"
                   name="description"
-                  value={formData.description}
+                  value={orderFormData.description}
                   onChange={handleInputChange}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Quantity:
-                <input
-                  type="number"
-                  name="quantity"
-                  value={formData.quantity}
-                  onChange={handleQuantityChange}
-                  min="1"
-                  style={{ marginLeft: "10px", width: "60px" }}
                 />
               </label>
             </div>

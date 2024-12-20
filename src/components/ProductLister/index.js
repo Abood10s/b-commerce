@@ -20,7 +20,7 @@ const ProductCard = styled.div`
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-
+  position: relative;
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -50,7 +50,7 @@ const ProductCard = styled.div`
   }
 
   .price {
-    font-size: 1rem; /* Adjusted font size for balance */
+    font-size: 1rem;
     color: #000;
     font-weight: bold;
     text-align: center;
@@ -86,7 +86,11 @@ const ProductCard = styled.div`
 
 const ProductList = ({ products }) => {
   if (!products || products.length === 0) {
-    return <p>No products available.</p>;
+    return (
+      <p style={{ textAlign: "center", margin: "1rem auto" }}>
+        No products available.
+      </p>
+    );
   }
 
   return (
@@ -116,13 +120,24 @@ const ProductList = ({ products }) => {
                 <span style={{ fontWeight: "bold", color: "green" }}>
                   ${product.priceAfterDiscount.toFixed(2)}
                 </span>
-                <span style={{ marginLeft: "10px" }}>
-                  (
+                <span
+                  style={{
+                    marginLeft: "10px",
+                    position: "absolute",
+                    top: "1rem",
+                    left: "0.5rem",
+                    backgroundColor: "green",
+                    color: "white",
+                    padding: ".3rem",
+                    borderRadius: "5px",
+                    fontWeight: "bold",
+                  }}
+                >
                   {(
                     (1 - product.priceAfterDiscount / product.price) *
                     100
                   ).toFixed(0)}
-                  % off)
+                  % off
                 </span>
               </>
             ) : (

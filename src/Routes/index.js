@@ -9,6 +9,8 @@ import Cart from "../pages/Cart/index.js";
 const HomePage = lazy(() => import("../pages/Home"));
 const Category = lazy(() => import("../pages/Category"));
 const SubCategory = lazy(() => import("../pages/SubCategory"));
+const Order = lazy(() => import("../pages/Order"));
+
 const Product = lazy(() => import("../pages/Product"));
 const ControlProducts = lazy(() =>
   import("../pages/Dashboard/ControlProducts.js")
@@ -66,6 +68,10 @@ export const router = [
       {
         path: `${PATHS.DASHBOARD}/product/control`,
         element: withAdminToken(ControlProducts),
+      },
+      {
+        path: `${PATHS.DASHBOARD}/order`,
+        element: withAdminToken(Order),
       },
     ],
   },

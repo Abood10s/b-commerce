@@ -6,22 +6,18 @@ export const Nav = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.5rem;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   background-color: white;
-
-  position: fixed;
+  position: sticky;
   top: 0;
-  width: 100%;
+  width: 100vw;
   z-index: 100;
-
-  @media (max-width: 1270px) {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: stretch;
-    padding: 0.5rem;
-  }
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 `;
-export const HomeLogo = styled(Link)``;
+export const HomeLogo = styled(Link)`
+  text-decoration: none;
+  color: #123;
+  font-size: 15px;
+`;
 export const LOGO = styled.img`
   display: block;
   height: 40px;
@@ -38,13 +34,15 @@ export const Mobilenav = styled.div`
   font-size: 25px;
   width: 100%;
   color: green;
-  @media (min-width: 1200px) {
+  padding: 0.5rem 1rem;
+  @media (min-width: 900px) {
     display: none;
   }
   @media (max-width: 900px) {
-    width: 95%;
+    width: 100%;
   }
 `;
+
 export const NavFlex1 = styled.div`
   display: flex;
   align-items: center;
@@ -53,7 +51,7 @@ export const NavFlex1 = styled.div`
   @media (max-width: 1270px) {
     justify-content: space-evenly;
   }
-  @media (max-width: 1200px) {
+  @media (max-width: 900px) {
     display: none;
   }
 `;

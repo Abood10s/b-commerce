@@ -33,7 +33,7 @@ export const productApi = createApi({
     }),
     getProductsBySubcategory: builder.query({
       query: (subcategoryId) =>
-        `/Product/GetProductsBySubcategory?sucategoryId=${subcategoryId}`,
+        `/Product/GetProductsBySubcategoty?sucategoryId=${subcategoryId}`,
     }),
     getProductDetails: builder.query({
       query: (productId) => `/Product/GetProductDetails?productId=${productId}`,
@@ -46,10 +46,10 @@ export const productApi = createApi({
       }),
     }),
     updateProduct: builder.mutation({
-      query: (formData) => ({
-        url: "/Product/Update",
-        method: "POST",
-        body: formData,
+      query: (updatedFormData) => ({
+        url: `/Product/Update${updatedFormData.get("id")}`,
+        method: "PUT",
+        body: updatedFormData,
       }),
     }),
     deleteProduct: builder.mutation({

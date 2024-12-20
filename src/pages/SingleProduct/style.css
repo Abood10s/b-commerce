@@ -190,8 +190,11 @@
     box-shadow: 0 0 10px rgba(28, 28, 28, 0.5);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 750px) {
     .single-product-container {
+        flex-direction: column;
+    }
+    .single-product-main-container {
         flex-direction: column;
     }
     .main-image,

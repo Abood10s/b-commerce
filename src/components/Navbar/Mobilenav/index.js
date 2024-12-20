@@ -1,8 +1,7 @@
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { PATHS } from "../../../Routes";
-// import { setAuth } from "../../../redux/AuthSlice";
+import { BiCartAlt } from "react-icons/bi";
 
 const Nav = styled.div`
   border-top: 3px solid green;
@@ -10,7 +9,7 @@ const Nav = styled.div`
   transition: all ease 0.3s;
   background-color: #fff;
   z-index: 185856;
-  top: 50px;
+  top: 70px;
   width: 100%;
   bottom: 0;
   right: ${(props) => (props.show ? "0" : "-110%")};
@@ -43,8 +42,10 @@ export const Flex2 = styled.div`
 `;
 const NavMobItem = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.3rem;
+  font-size: 1rem;
   margin: auto;
+  align-items: center;
 `;
 const LogOut = styled.h4`
   transition: all 0.2s ease;
@@ -67,56 +68,45 @@ const ITEM = styled.div`
     border-left: 5px solid green;
   }
 `;
-const PhoneNav = ({ show }) => {
-  const dispatch = useDispatch();
+const PhoneNav = ({ show, closeNav }) => {
   return (
-    <Nav show={show}>
+    <Nav show={show ? "true" : undefined}>
       <Container>
         <Flex1>
           <ITEM>
-            <NavMobItem>
-              {" "}
-              <Link to={PATHS.HOME}>Home</Link>
-            </NavMobItem>
-          </ITEM>
-          <ITEM>
-            <NavMobItem>My Jobs</NavMobItem>
-          </ITEM>
-          <ITEM>
-            <Link to="/home" style={{ textDecoration: "none", color: "green" }}>
-              <NavMobItem>Reports</NavMobItem>
+            <Link
+              to={PATHS.HOME}
+              onClick={closeNav}
+              style={{ textDecoration: "none", fontWeight: "450" }}
+            >
+              <NavMobItem>Home</NavMobItem>
             </Link>
           </ITEM>
           <ITEM>
-            <Link style={{ textDecoration: "none", color: "green" }} to="/home">
+            <Link
+              to={PATHS.CART}
+              onClick={closeNav}
+              style={{ textDecoration: "none", fontWeight: "450" }}
+            >
               <NavMobItem>
-                <p style={{ fontSize: "14px", fontWeight: "bold" }}>Messages</p>
+                Cart
+                <BiCartAlt style={{ fontSize: "1.55rem", cursor: "pointer" }} />
               </NavMobItem>
             </Link>
           </ITEM>
         </Flex1>
         <Line />
         <Flex2>
-          <p>User agreement</p>
-          <p>Partnership</p>
-          <p>Privacy policy</p>
-        </Flex2>
-        <Line />
-        <Flex2>
           <LogOut
             onClick={() => {
+              localStorage.removeItem("user");
+              localStorage.removeItem("token");
               window.location.reload();
-              // dispatch(setAuth(false));
-              localStorage.clear();
             }}
             style={{
-              width: "fit-content",
               textAlign: "center",
-              marginTop: "2rem",
-              position: "absolute",
-              left: "50%",
-              transform: "translateX(-50%)",
-              padding: "0.5rem",
+              margin: "2rem auto",
+              padding: "0.5rem 1rem",
               borderRadius: "5px",
               border: "1px solid red",
             }}

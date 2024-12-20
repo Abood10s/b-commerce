@@ -8,6 +8,7 @@ import { useLoginMutation } from "../../../features/api/authApi";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../../features/slices/authSlice";
 import { PATHS } from "../../../Routes";
+import Spinner from "../../Spinner";
 
 const LoginForm = () => {
   const [login, { isLoading }] = useLoginMutation();
@@ -78,7 +79,7 @@ const LoginForm = () => {
             placeholder="Enter Password"
           />
           <button type="submit" className="login-button" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Log in"}
+            {isLoading ? <Spinner /> : "Log in"}
           </button>
           <div>
             Don’t Have An Account?{" "}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logout } from "../../features/slices/authSlice";
 import ProductLister from "../../components/ProductLister";
 import {
@@ -12,7 +12,7 @@ import {
   useGetSubCategoriesByCategoryQuery,
 } from "../../features/api/subCategoryApi";
 
-import MainBanner from "../../components/MainBanner";
+import Spinner from "../../components/Spinner";
 import CategoryFilter from "../../components/CategoryFilter";
 
 const HomePage = () => {
@@ -22,36 +22,25 @@ const HomePage = () => {
 
   const { data: categories, isLoading: categoriesAreLoading } =
     useGetAllCategoriesQuery();
-  const {
-    data: allProducts,
-    isLoading: allProductsAreLoading,
-    isError: allProductsError,
-  } = useGetProductsQuery({ page: 1 });
-  const { data: ProductsByCategory, isLoading: ProductsByCategoryAreLoading } =
-    useGetProductsByCategoryQuery(selectedCategoryId, {
-      skip: !selectedCategoryId,
-    });
-  const {
-    data: subCategories,
-    isLoading: subCategoriesAreLoading,
-    isError: subCategoriesError,
-  } = useGetSubCategoriesByCategoryQuery(selectedCategoryId, {
-    skip: !selectedCategoryId,
-  });
-  const {
-    data: ProductsBySubcategory,
-    isLoading: ProductsBySubcategoryLoading,
-    isError: ProductsBySubcategoryError,
-  } = useGetProductsBySubcategoryQuery(selectedSubcategoryId, {
-    skip: !selectedSubcategoryId,
-  });
+  const { data: allProducts, isLoading: allProductsAreLoading } =
+    useGetProductsQuery({ page: 1 });
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
+  const { data: ProductsByCategory } = useGetProductsByCategoryQuery(
+    selectedCategoryId,
+    { skip: !selectedCategoryId }
+  );
+  const { data: subCategories } = useGetSubCategoriesByCategoryQuery(
+    selectedCategoryId,
+    { skip: !selectedCategoryId }
+  );
+  const { data: ProductsBySubcategory } = useGetProductsBySubcategoryQuery(
+    selectedSubcategoryId,
+    { skip: !selectedSubcategoryId }
+  );
 
   const handleCategoryClick = (categoryId) => {
     setSelectedCategoryId(categoryId);
+    setSelectedSubcategoryId(null); // Reset subcategory
   };
 
   const handleSubcategoryClick = (subcategoryId) => {
@@ -60,24 +49,22 @@ const HomePage = () => {
 
   const handleAllClick = () => {
     setSelectedCategoryId(null);
+    setSelectedSubcategoryId(null); 
   };
 
-  useEffect(() => {
-    if (!selectedCategoryId) {
-      setSelectedSubcategoryId(null);
-    }
-  }, [selectedCategoryId]);
-
   const productsToDisplay =
-    selectedSubcategoryId && ProductsBySubcategory
+    selectedSubcategoryId && ProductsBySubcategory?.data
       ? ProductsBySubcategory.data
-      : selectedCategoryId && ProductsByCategory
+      : selectedCategoryId && ProductsByCategory?.data
       ? ProductsByCategory.data
-      : allProducts?.data?.products;
+      : allProducts?.data?.products || [];
+
+  if (categoriesAreLoading || allProductsAreLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div>
-      <MainBanner />
       <div className="container">
         <CategoryFilter
           categories={categories?.data || []}
@@ -87,7 +74,7 @@ const HomePage = () => {
           selectedSubcategoryId={selectedSubcategoryId}
           handleSubcategoryClick={handleSubcategoryClick}
         />
-        <ProductLister products={productsToDisplay || []} />
+        <ProductLister products={productsToDisplay} />
       </div>
     </div>
   );

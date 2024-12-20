@@ -3,19 +3,11 @@ import React, { useState } from "react";
 import { PATHS } from "../../Routes/index";
 
 import NavSearch from "./NavSearch";
-import {
-  HomeLogo,
-  Logout,
-  Mobilenav,
-  Nav,
-  NavFlex1,
-  NavFlex2,
-  SVGS,
-} from "./style";
+import { HomeLogo, Logout, Mobilenav, Nav, NavFlex1, SVGS } from "./style";
 import { BiCartAlt } from "react-icons/bi";
 
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { TbMenu } from "react-icons/tb";
 import { FiX } from "react-icons/fi";
 import PhoneNav from "./Mobilenav";
@@ -23,58 +15,32 @@ import { Chip } from "../CategoryFilter";
 import styled from "styled-components";
 
 const Logo = styled(Link)`
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #123;
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  &:hover {
-    color: #696767;
-  }
+  color: #123;
+  font-size: 1.5rem;
 `;
 
-export const Findwork = [
-  "Find Work",
-  "Saved Jobs",
-  "Proposals",
-  "Profile",
-  "My Stats",
-  "My Project Dashboard",
-];
-export const Myjobs = ["My Jobs", "All Contacts", "Work Diary"];
-export const Reports = [
-  "Overview",
-  "My Reports",
-  "Billings & Earnings",
-  "Connects History",
-  "Transaction History",
-  "Certificate of Earnings",
-];
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const cartItems = useSelector((state) => state.cart);
 
-  const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
+
   return (
     <Nav>
       <Mobilenav>
-        <HomeLogo to={PATHS.HOME}></HomeLogo>
+        <HomeLogo to={PATHS.HOME}>Edfa3 Banky</HomeLogo>
         {clicked ? (
-          <FiX onClick={() => setClicked(!clicked)} />
+          <FiX onClick={() => setClicked(false)} />
         ) : (
-          <TbMenu onClick={() => setClicked(!clicked)} />
+          <TbMenu onClick={() => setClicked(true)} />
         )}
       </Mobilenav>
-      <PhoneNav show={clicked ? true : false} />
+      <PhoneNav show={clicked} closeNav={() => setClicked(false)} />
       <NavFlex1>
         <Logo to={PATHS.HOME}>Edfa3 Banky</Logo>
       </NavFlex1>
-      <NavFlex2>
-        <NavSearch />
+      <div style={{ display: "flex", alignItems: "center", gap: "1em" }}>
         {user?.userTypeName === "Admin" && (
           <Link
             to={PATHS.DASHBOARD}
@@ -94,9 +60,21 @@ const Navbar = () => {
               gap: "3px",
             }}
           >
-            <BiCartAlt style={{ fontSize: "1.25rem", cursor: "pointer" }} />
+            <BiCartAlt style={{ fontSize: "1.55rem", cursor: "pointer" }} />
             {cartItems?.length ? (
-              <span style={{ color: "red" }}>{cartItems.length}</span>
+              <span
+                style={{
+                  color: "white",
+                  height: "20px",
+                  width: "20px",
+                  borderRadius: "50%",
+                  backgroundColor: "Green",
+                  display: "grid",
+                  placeItems: "center",
+                }}
+              >
+                {cartItems.length}
+              </span>
             ) : null}
           </Link>
         </SVGS>
@@ -104,12 +82,13 @@ const Navbar = () => {
           onClick={() => {
             localStorage.removeItem("user");
             localStorage.removeItem("token");
+            localStorage.removeItem("cart");
             window.location.reload();
           }}
         >
           Logout
         </Logout>
-      </NavFlex2>
+      </div>
     </Nav>
   );
 };

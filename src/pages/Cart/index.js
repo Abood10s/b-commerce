@@ -1,59 +1,65 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart } from "../../features/slices/cartSlice";
+import { clearCart, removeFromCart } from "../../features/slices/cartSlice";
 import "./style.css";
 import Modal from "../../components/Modal";
+import { useCreateOrderMutation } from "../../features/api/orderApi";
+import { toast } from "react-toastify"; // Import toast from react-toastify
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [formData, setFormData] = useState({
-    phoneNumber: "",
+  const [orderFormData, setOrderFormData] = useState({
     location: "",
+    phoneNumber: "",
     description: "",
-    quantity: 1,
   });
 
-  const handleOrderClick = (product) => {
-    setSelectedProduct(product);
-    setFormData({
-      phoneNumber: "",
-      location: "",
-      description: "",
-      quantity: product.quantity,
-    });
+  const [createOrder] = useCreateOrderMutation();
+
+  const handleOrderClick = () => {
     setIsModalOpen(true);
+  };
+  const handleModalSubmit = async (e) => {
+    e.preventDefault();
+
+    const products = cart.map((item) => ({
+      productId: item.id,
+      quantity: item.quantity,
+    }));
+
+    const orderData = {
+      location: orderFormData.location,
+      phoneNumber: orderFormData.phoneNumber,
+      description: orderFormData.description,
+      products,
+    };
+
+    try {
+      const result = await createOrder(orderData).unwrap();
+      console.log("Order created successfully:", result);
+      dispatch(clearCart());
+      setIsModalOpen(false);
+      toast.success("Order placed successfully!");
+    } catch (error) {
+      console.error("Error creating order:", error);
+      toast.error("Failed to place order. Please try again.");
+    }
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setSelectedProduct(null);
   };
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setOrderFormData({ ...orderFormData, [e.target.name]: e.target.value });
   };
 
-  const handleQuantityChange = (e) => {
-    setFormData({ ...formData, quantity: parseInt(e.target.value) });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form data submitted:", formData);
-
-    const updatedCart = cart.map((item) =>
-      item.id === selectedProduct.id
-        ? { ...item, quantity: item.quantity + formData.quantity }
-        : item
-    );
-
-    dispatch({ type: "cart/updateCart", payload: updatedCart });
-    setIsModalOpen(false);
-    setSelectedProduct(null);
+  const handleRemoveItem = (productId) => {
+    dispatch(removeFromCart(productId));
+    toast.success("Item removed from cart.");
   };
 
   if (cart.length === 0) {
@@ -75,13 +81,12 @@ const Cart = () => {
             <th>Price</th>
             <th>Quantity</th>
             <th>Total</th>
-            <th>Order</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {cart.map((item) => (
             <tr key={item.id}>
-              {console.log(item)}
               <td>
                 <img
                   src={`${process.env.REACT_APP_API_SINGLE_PRODUCT_MAIN_IMAGE_URL}${item.image}`}
@@ -95,10 +100,10 @@ const Cart = () => {
               <td>${(item.price * item.quantity).toFixed(2)}</td>
               <td>
                 <button
-                  onClick={() => handleOrderClick(item)}
-                  className="cart-order"
+                  onClick={() => handleRemoveItem(item.id)}
+                  className="cart-remove-btn"
                 >
-                  Order
+                  Remove
                 </button>
               </td>
             </tr>
@@ -113,6 +118,9 @@ const Cart = () => {
             .toFixed(2)}
         </h3>
         <div className="cart-buttons">
+          <button className="cart-order-btn" onClick={handleOrderClick}>
+            Order
+          </button>
           <button
             className="cart-clear-btn"
             onClick={() => dispatch(clearCart())}
@@ -124,16 +132,15 @@ const Cart = () => {
 
       {isModalOpen && (
         <Modal
-          selectedProduct={selectedProduct}
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          onSubmit={handleSubmit}
-          formData={formData}
+          onSubmit={handleModalSubmit}
+          orderFormData={orderFormData}
           handleInputChange={handleInputChange}
-          handleQuantityChange={handleQuantityChange}
         />
       )}
     </div>
   );
 };
+
 export default Cart;
