@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { PATHS } from "../../../Routes";
 import { BiCartAlt } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
 const Nav = styled.div`
   border-top: 3px solid green;
@@ -46,6 +47,9 @@ const NavMobItem = styled.div`
   font-size: 1rem;
   margin: auto;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
 `;
 const LogOut = styled.h4`
   transition: all 0.2s ease;
@@ -69,6 +73,8 @@ const ITEM = styled.div`
   }
 `;
 const PhoneNav = ({ show, closeNav }) => {
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <Nav show={show ? "true" : undefined}>
       <Container>
@@ -79,7 +85,7 @@ const PhoneNav = ({ show, closeNav }) => {
               onClick={closeNav}
               style={{ textDecoration: "none", fontWeight: "450" }}
             >
-              <NavMobItem>Home</NavMobItem>
+              <NavMobItem>الرئيسية</NavMobItem>
             </Link>
           </ITEM>
           <ITEM>
@@ -89,8 +95,15 @@ const PhoneNav = ({ show, closeNav }) => {
               style={{ textDecoration: "none", fontWeight: "450" }}
             >
               <NavMobItem>
-                Cart
-                <BiCartAlt style={{ fontSize: "1.55rem", cursor: "pointer" }} />
+                {user?.userTypeName === "Admin" && (
+                  <Link
+                    to={PATHS.DASHBOARD}
+                    style={{ textDecoration: "none", fontWeight: "bold" }}
+                  >
+                    لوحة التحكم
+                  </Link>
+                )}
+                {/* <BiCartAlt style={{ fontSize: "1.55rem", cursor: "pointer" }} /> */}
               </NavMobItem>
             </Link>
           </ITEM>
@@ -111,7 +124,7 @@ const PhoneNav = ({ show, closeNav }) => {
               border: "1px solid red",
             }}
           >
-            Logout
+            تسجيل الخروج
           </LogOut>
         </Flex2>
       </Container>

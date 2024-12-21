@@ -27,6 +27,18 @@ export const LOGO = styled.img`
     height: 40px;
   }
 `;
+export const DashboardButton = styled.div`
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
+export const Username = styled.div`
+  color: #6366f1;
+  font-weight: bold;
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
 export const Mobilenav = styled.div`
   display: flex;
   align-items: center;
@@ -92,6 +104,20 @@ export const Logout = styled.button`
   margin: 0.2rem auto;
   @media (max-width: 1200px) {
     order: 2;
+  }
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
+export const CartHover = styled.div`
+  display: grid;
+  padding: 6px;
+  place-items: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  &:hover {
+    background-color: #e0e0e0;
+    color: #123;
   }
 `;
 export const SVGS = styled.div`

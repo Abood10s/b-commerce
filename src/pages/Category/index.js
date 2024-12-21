@@ -34,11 +34,11 @@ const Category = () => {
       createCategory({ name })
         .unwrap()
         .then(() => {
-          toast.success("Category created successfully!");
+          toast.success("تمت إضافة الفئة بنجاح!");
           setName("");
         })
         .catch(() => {
-          toast.error("Error creating category!");
+          toast.error("خطأ في إضافة الفئة!");
         });
     }
   };
@@ -47,16 +47,16 @@ const Category = () => {
     deleteCategory(id)
       .unwrap()
       .then(() => {
-        toast.success("Category deleted successfully");
+        toast.success("تم حذف الفئة بنجاح");
       })
       .catch((err) => {
-        toast.error("Error deleting category: " + err.message);
+        toast.error("خطأ في حذف الفئة: " + err.message);
       });
   };
 
   const handleEdit = (category) => {
     setEditingCategoryId(category.id);
-    setEditName(category.name); // Set the category name to the input field
+    setEditName(category.name);
   };
 
   const handleSaveEdit = () => {
@@ -65,10 +65,10 @@ const Category = () => {
         .unwrap()
         .then(() => {
           setEditingCategoryId(null);
-          toast.success("Category updated successfully!");
+          toast.success("تم تعديل الفئة بنجاح!");
         })
         .catch(() => {
-          toast.error("Error updating category!");
+          toast.error("خطأ في تعديل الفئة!");
         });
     }
   };
@@ -80,10 +80,10 @@ const Category = () => {
 
   return (
     <div className="category-dashboard-container">
-      <h2>Create a New Category</h2>
+      <h2>إنشاء فئة جديدة</h2>
       <form onSubmit={handleSubmit} className="category-form">
         <div className="form-group">
-          <label htmlFor="categoryName">Category Name</label>
+          <label htmlFor="categoryName">اسم الفئة</label>
           <input
             type="text"
             id="categoryName"
@@ -94,25 +94,19 @@ const Category = () => {
           />
         </div>
         <button type="submit" disabled={isLoading} className="btn-submit">
-          {isLoading ? "Creating..." : "Create Category"}
+          {isLoading ? "يتم الإنشاء..." : "إضافة"}
         </button>
       </form>
 
-      {isSuccess && (
-        <p className="message success">Category created successfully!</p>
-      )}
-      {error && <p className="message error">Error: {error.message}</p>}
+      {isSuccess && <p className="message success">تمت إضافة الفئة بنجاح!</p>}
+      {error && <p className="message error">خطأ: {error.message}</p>}
 
       <h3>Categories</h3>
 
-      {categoriesLoading && <p>Loading categories...</p>}
-      {categoriesError && (
-        <p>Error fetching categories: {categoriesError.message}</p>
-      )}
+      {categoriesLoading && <p>يتم تحميل الفئات...</p>}
+      {categoriesError && <p>خطأ في تحميل الفئات: {categoriesError.message}</p>}
 
-      {categories.length === 0 && !categoriesLoading && (
-        <p>No categories available.</p>
-      )}
+      {categories.length === 0 && !categoriesLoading && <p>لا يوجد فئات.</p>}
 
       <ul className="category-list">
         {categories && categories.length > 0 ? (
@@ -131,10 +125,10 @@ const Category = () => {
                     disabled={isUpdating}
                     className="btn-save"
                   >
-                    {isUpdating ? "Saving..." : "Save"}
+                    {isUpdating ? "يتم الحفظ..." : "حفظ"}
                   </button>
                   <button onClick={handleCancelEdit} className="btn-cancel">
-                    Cancel
+                    الغاء
                   </button>
                 </div>
               ) : (
@@ -145,13 +139,13 @@ const Category = () => {
                       onClick={() => handleEdit(category)}
                       className="btn-edit"
                     >
-                      Edit
+                      تعديل
                     </button>
                     <button
                       onClick={() => handleDelete(category.id)}
                       className="btn-delete"
                     >
-                      Delete
+                      حذف
                     </button>
                   </div>
                 </div>
@@ -159,7 +153,7 @@ const Category = () => {
             </li>
           ))
         ) : (
-          <p>No categories available.</p>
+          <p>لا يتوفر فئات .</p>
         )}
       </ul>
 

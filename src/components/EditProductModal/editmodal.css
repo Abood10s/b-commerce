@@ -4,6 +4,7 @@
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 99999;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
@@ -16,11 +17,18 @@
     border-radius: 8px;
     width: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.edit-modal-content h2 {
+    text-align: center;
+    margin-bottom: .5rem;
 }
 
 .edit-product-form {
     display: flex;
     flex-direction: column;
+    height: 80%;
 }
 
 .edit-product-form label {
@@ -39,6 +47,10 @@
 
 .edit-product-form input[type="file"] {
     padding: 0;
+}
+
+.edit-product-form-header img {
+    height: 85px;
 }
 
 .edit-product-form button {

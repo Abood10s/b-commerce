@@ -33,16 +33,14 @@ export const SignupSchema = yup.object().shape({
 });
 
 export const productSchema = yup.object().shape({
-  name: yup.string().required("Product name is required."),
-  description: yup.string().required("Description is required."),
-  subcategoryId: yup.number().required("Subcategory ID is required."),
+  name: yup.string().required("اسم المنتج مطلوب."),
+  description: yup.string().required("وصف المنتج كطلوب."),
+  subcategoryId: yup.number().required("يجب إختيار فئة فرعية."),
   price: yup
     .number()
-    .min(0, "Price must be greater than 0")
-    .required("Price is required."),
-  discount: yup
-    .number()
-    .min(0, "Discount must be at least 0")
-    .required("Discount is required."),
-  image: yup.mixed().required("Main image is required."), // Main image validation
+    .min(0, "السعر يجب أن يكون أكبر من 0")
+    .required("السعر لا يجب أن يكون فارغا."),
+  discount: yup.number().min(0, "الخصم على الأقل صفر").required("الخصم مطلوب."),
+  image: yup.mixed().required("الصورة الرئيسية مطلوبة."),
+  quantity: yup.number().min(0, "أقل كمية 0").required("الكمية مطلوبة."),
 });

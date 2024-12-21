@@ -32,13 +32,13 @@
 
 .dashboard-tile {
     background-color: #fff;
-    padding: 20px;
+    padding: 1rem;
     width: 250px;
     height: 150px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     outline: 3px solid rgb(13, 170, 13);
-    background-color: rgba(127, 255, 212, 0.189);
+    background-color: rgba(105, 250, 202, 0.132);
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -76,8 +76,8 @@
         align-items: center;
     }
     .dashboard-tile {
-        width: 200px;
         height: 120px;
+        padding: 1rem;
     }
     .dashboard-heading {
         font-size: 2rem;

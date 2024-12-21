@@ -4,14 +4,14 @@ export const Loader = styled.span`
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  display: inline-block;
+  display: block;
   margin: 1px auto;
   position: relative;
   border: 3px solid;
   border-color: #fff #fff transparent transparent;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-
+  margin: 0.5rem auto;
   &::after,
   &::before {
     content: "";
@@ -58,7 +58,7 @@ export const Loader = styled.span`
   }
 `;
 const Spinner = () => {
-  return <Loader class="loader" />;
+  return <Loader className="loader" />;
 };
 
 export default Spinner;

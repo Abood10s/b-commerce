@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EditProductModal from "../../../components/EditProductModal";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // استيراد CSS الخاص بـ Toastify
 import "./controlProducts.css";
 import {
   useGetProductsQuery,
   useUpdateProductMutation,
-  useGetProductDetailsQuery, // Import the query
+  useGetProductDetailsQuery,
+  useDeleteProductMutation,
 } from "../../../features/api/productsApi";
 
 const ControlProducts = () => {
   const { data: products, isLoading, error } = useGetProductsQuery({ page: 1 });
+  const [deleteProduct] = useDeleteProductMutation();
   const [updateProduct] = useUpdateProductMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -27,13 +30,20 @@ const ControlProducts = () => {
     useGetProductDetailsQuery(selectedProduct?.id, {
       skip: !selectedProduct?.id,
     });
-  const handleEdit = async (product) => {
-    setSelectedProduct(product); // Set the selected product
-    setIsModalOpen(true); // Open the modal
 
-    // Fetch product details if product.id exists
+  let discountPercentagePublic = 0;
+
+  useEffect(() => {
+    if (error) {
+      toast.error("خطأ في تحميل البيانات.");
+    }
+  }, [error]);
+
+  const handleEdit = async (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+
     if (product?.id) {
-      // Update formData with the selected product details
       setFormData({
         name: product.name,
         description: product.description,
@@ -41,14 +51,33 @@ const ControlProducts = () => {
         price: product.price,
         discount: product.discount,
         image: null,
-        images: [], // Reset image field
+        images: [],
       });
+
+      // حساب نسبة الخصم
+      const discountAmount = product.price - product.priceAfterDiscount;
+      discountPercentagePublic = (discountAmount / product.price) * 100;
+    }
+  };
+
+  const handleDelete = async (productId) => {
+    try {
+      await deleteProduct(productId).unwrap();
+      toast.success("تم حذف المنتج بنجاح!");
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      toast.error("حدث خطأ في حذف المنتج.");
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === "price") {
+      const discountAmount = selectedProduct.price - value;
+      discountPercentagePublic = (discountAmount / selectedProduct.price) * 100;
+    }
   };
 
   const handleImageChange = (e) => {
@@ -58,63 +87,93 @@ const ControlProducts = () => {
       [name]: name === "images" ? Array.from(files) : files[0],
     });
   };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
-
     if (!selectedProduct.id) {
       console.error("Selected product ID is missing.");
       return;
     }
 
     const updatedFormData = new FormData();
-    updatedFormData.append("Id", selectedProduct.id); // Correct field name
+    updatedFormData.append("Id", selectedProduct.id);
     updatedFormData.append("Name", formData.name);
     updatedFormData.append("Description", formData.description);
     updatedFormData.append("SubcategoryId", formData.subcategoryId);
     updatedFormData.append("Price", formData.price);
-    updatedFormData.append("Discount", formData.discount);
+
+    const discountAmount = selectedProduct.price - formData.price;
+    const discountPercentage = (discountAmount / selectedProduct.price) * 100;
+    updatedFormData.append("Discount", discountPercentage.toFixed(2));
 
     if (formData.image) {
-      updatedFormData.append("Image", formData.image); // Correct field name
+      updatedFormData.append("Image", formData.image);
     }
 
     formData.images.forEach((image) => {
-      updatedFormData.append("Images", image); // Correct field name
+      updatedFormData.append("Images", image);
     });
 
     try {
       await updateProduct(updatedFormData).unwrap();
-      toast.success("Product updated successfully!");
-      setIsModalOpen(false); // Close modal if update is successful
+      toast.success("تم تحديث المنتج بنجاح!");
+      setIsModalOpen(false);
     } catch (error) {
       console.error("Error updating product:", error);
-      toast.error(`Failed to update product: ${error.message}`);
+      toast.error(`فشل تحديث المنتج: ${error.data.errors}`);
     }
   };
+
   return (
     <div className="control-products-container">
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error fetching products.</p>}
+      {isLoading && <p>يتم التحميل...</p>}
+      {error && <p>خطأ في جلب البيانات.</p>}
       {products?.data.products && (
         <table className="products-table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Discount</th>
-              <th>Actions</th>
+              <th>الاسم</th>
+              <th>الصورة</th>
+              <th>الوصف</th>
+              <th>السعر</th>
+              <th>نسبة الخصم</th>
+              <th>تعديل/حذف</th>
             </tr>
           </thead>
           <tbody>
             {products.data.products.map((product) => (
               <tr key={product.id}>
                 <td>{product.name}</td>
+                <td>
+                  <img
+                    src={`${process.env.REACT_APP_API_MAIN_IMAGE_URL}${product?.image}`}
+                    alt="product.name"
+                  />
+                </td>
+
                 <td>{product.description}</td>
                 <td>${product.price}</td>
-                <td>{product.discount}%</td>
                 <td>
-                  <button onClick={() => handleEdit(product)}>Edit</button>
+                  {(
+                    ((product.price - product.priceAfterDiscount) /
+                      product.price) *
+                    100
+                  ).toFixed(2)}
+                  %
+                </td>
+                <td>
+                  <button
+                    className="control-edit"
+                    onClick={() => handleEdit(product)}
+                  >
+                    تعديل
+                  </button>
+                  <button
+                    className="control-delete"
+                    onClick={() => handleDelete(product.id)}
+                  >
+                    حذف
+                  </button>
                 </td>
               </tr>
             ))}
@@ -130,10 +189,12 @@ const ControlProducts = () => {
           formData={formData}
           handleInputChange={handleInputChange}
           handleImageChange={handleImageChange}
-          selectedProduct={selectedProduct} // Pass selected product to modal
-          productDetails={productDetails} // Pass productDetails to modal
+          selectedProduct={selectedProduct}
+          productDetails={productDetails}
         />
       )}
+
+      <ToastContainer />
     </div>
   );
 };

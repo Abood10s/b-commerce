@@ -17,8 +17,16 @@
     overflow-x: hidden;
 }
 
+.login-image img {
+    width: 400px;
+    height: auto;
+    /* لجعل الصورة تأخذ ارتفاعها الطبيعي بدون تمدد */
+    margin-top: -5rem;
+}
+
 .login-form {
     width: 100%;
+    overflow-y: auto;
 }
 
 .form-cont {
@@ -30,6 +38,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin-bottom: -5rem;
 }
 
 .color-text {
@@ -66,8 +75,19 @@
     min-height: 80vh;
     position: relative;
     border-radius: 10px;
-    padding: 2rem 1rem;
+    padding: 1rem 1rem;
     overflow-y: auto;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.error-text {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: -0.5rem;
+}
+
+.login-form .form-error {
+    margin-top: 0.5rem;
 }
 
 .register-link {
@@ -96,6 +116,7 @@
     font-size: 2rem;
     text-align: center;
     color: #6366F1;
+    width: 100%;
 }
 
 .login-form::-webkit-scrollbar {

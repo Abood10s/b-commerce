@@ -39,7 +39,35 @@ export const Chip = styled.span`
     border-color: orange;
   }
 `;
+export const SubCatChip = styled.span`
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  color: orange;
+  cursor: pointer;
+  font-size: 0.875rem;
+  border: 1px solid #e0e0e0;
 
+  &.active {
+    background-color: orange;
+    color: #fff;
+    border: 1px solid #fff;
+  }
+
+  &:hover {
+    background-color: orange;
+    color: #fff;
+    border: 1px solid #fff;
+    transition: all 0.3s ease;
+  }
+
+  &.category-chip {
+    border-color: #e0e0e0;
+  }
+
+  &.subcategory-chip {
+    border-color: orange;
+  }
+`;
 const CategoryFilter = ({
   categories,
   selectedCategoryId,
@@ -59,7 +87,7 @@ const CategoryFilter = ({
           }`}
           onClick={() => handleCategoryClick(null)}
         >
-          All
+          الكل
         </Chip>
         {categories.map((cat) => (
           <Chip
@@ -79,7 +107,7 @@ const CategoryFilter = ({
       {selectedCategoryId && subCategories?.length > 0 && (
         <ChipContainer>
           {subCategories.map((subCat) => (
-            <Chip
+            <SubCatChip
               key={subCat.id}
               className={`chip ${
                 selectedSubcategoryId === subCat.id
@@ -89,7 +117,7 @@ const CategoryFilter = ({
               onClick={() => handleSubcategoryClick(subCat.id)}
             >
               {subCat.name}
-            </Chip>
+            </SubCatChip>
           ))}
         </ChipContainer>
       )}

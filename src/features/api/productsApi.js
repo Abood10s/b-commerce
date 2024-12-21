@@ -15,7 +15,6 @@ export const productApi = createApi({
       return headers;
     },
   }),
-
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: ({ page = 1, subcategoryId, categoryId }) => {
@@ -26,17 +25,21 @@ export const productApi = createApi({
 
         return `/Product/GetAll?${params.toString()}`;
       },
+      providesTags: ["Products"],
     }),
     getProductsByCategory: builder.query({
       query: (categoryId) =>
         `/Product/GetProductsByCategoty?categoryId=${categoryId}`,
+      providesTags: ["Products"],
     }),
     getProductsBySubcategory: builder.query({
       query: (subcategoryId) =>
         `/Product/GetProductsBySubcategoty?sucategoryId=${subcategoryId}`,
+      providesTags: ["Products"],
     }),
     getProductDetails: builder.query({
       query: (productId) => `/Product/GetProductDetails?productId=${productId}`,
+      providesTags: ["Products"],
     }),
     createProduct: builder.mutation({
       query: (formData) => ({
@@ -44,13 +47,15 @@ export const productApi = createApi({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Products"],
     }),
     updateProduct: builder.mutation({
       query: (updatedFormData) => ({
-        url: `/Product/Update${updatedFormData.get("id")}`,
+        url: `/Product/Update`,
         method: "PUT",
         body: updatedFormData,
       }),
+      invalidatesTags: ["Products", "ProductDetails"],
     }),
     deleteProduct: builder.mutation({
       query: (id) => ({
@@ -58,6 +63,7 @@ export const productApi = createApi({
         method: "DELETE",
         params: { id },
       }),
+      invalidatesTags: ["Products", "ProductDetails"],
     }),
   }),
 });

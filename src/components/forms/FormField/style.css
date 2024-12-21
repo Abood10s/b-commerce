@@ -13,14 +13,23 @@
     width: 80%;
     display: block;
     padding: 15px;
-    border: 1px solid rgba(118, 118, 118, 0.192);
-    border-radius: 6px;
     outline: none;
     transition: all ease 0.1s;
     margin-bottom: 10px;
+    border: none;
+    outline: none;
 }
 
-.input:focus {
+.input-container {
+    border-radius: 6px;
+    border: 1px solid rgba(118, 118, 118, 0.192);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 .5rem;
+}
+
+.input:active .input-container {
     border: 2px solid #6366F1;
 }
 
@@ -37,6 +46,10 @@
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
+    cursor: pointer;
+}
+
+.icon {
     cursor: pointer;
 }
 

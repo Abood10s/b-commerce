@@ -3,7 +3,17 @@ import React, { useState } from "react";
 import { PATHS } from "../../Routes/index";
 
 import NavSearch from "./NavSearch";
-import { HomeLogo, Logout, Mobilenav, Nav, NavFlex1, SVGS } from "./style";
+import {
+  CartHover,
+  DashboardButton,
+  HomeLogo,
+  Logout,
+  Mobilenav,
+  Nav,
+  NavFlex1,
+  SVGS,
+  Username,
+} from "./style";
 import { BiCartAlt } from "react-icons/bi";
 
 import { Link } from "react-router-dom";
@@ -42,13 +52,16 @@ const Navbar = () => {
       </NavFlex1>
       <div style={{ display: "flex", alignItems: "center", gap: "1em" }}>
         {user?.userTypeName === "Admin" && (
-          <Link
-            to={PATHS.DASHBOARD}
-            style={{ textDecoration: "none", fontWeight: "bold" }}
-          >
-            <Chip>Dashboard</Chip>
-          </Link>
+          <DashboardButton>
+            <Link
+              to={PATHS.DASHBOARD}
+              style={{ textDecoration: "none", fontWeight: "bold" }}
+            >
+              <Chip>لوحة التحكم</Chip>
+            </Link>
+          </DashboardButton>
         )}
+        <Username className="username">{user.fullName}</Username>
         <SVGS>
           <Link
             to={PATHS.CART}
@@ -60,7 +73,9 @@ const Navbar = () => {
               gap: "3px",
             }}
           >
-            <BiCartAlt style={{ fontSize: "1.55rem", cursor: "pointer" }} />
+            <CartHover>
+              <BiCartAlt style={{ fontSize: "1.55rem", cursor: "pointer" }} />
+            </CartHover>
             {cartItems?.length ? (
               <span
                 style={{
@@ -86,7 +101,7 @@ const Navbar = () => {
             window.location.reload();
           }}
         >
-          Logout
+          تسجيل الخروج
         </Logout>
       </div>
     </Nav>

@@ -57,20 +57,18 @@ const SubCategory = () => {
         });
 
         if (response?.data) {
-          toast.success("Subcategory created successfully!");
+          toast.success("تمت إضافة الفئة الفرعية بنجاح!");
         } else {
-          toast.error("Something went wrong, please try again.");
+          toast.error("حدث خطأ.");
         }
 
         setSubcategoryName("");
       } catch (error) {
-        console.error("Error creating subcategory:", error);
-        toast.error("An error occurred while creating the subcategory.");
+        console.error("هناك خطأ:", error);
+        toast.error("خطأ طرأ عند إضافة الفئة الفرعية.");
       }
     } else {
-      toast.error(
-        "Please provide a valid subcategory name and select a category."
-      );
+      toast.error("يجب اختيار فئة فرعية.");
     }
   };
 
@@ -95,12 +93,12 @@ const SubCategory = () => {
         const response = await updateSubCategory(updatedSubCategory);
 
         if (response?.data) {
-          toast.success("Subcategory updated successfully!");
+          toast.success("تم تعديل الفئة الفرعية بنجاح!");
           setEditingSubcategoryId(null);
         }
       } catch (error) {
-        console.error("Error updating subcategory:", error);
-        toast.error("An error occurred while updating the subcategory.");
+        console.error("خطأ في تعديل الفئة الفرعية:", error);
+        toast.error("خطأ طرأ أثناء تعديل الفئة الفرعية.");
       }
     }
   };
@@ -124,11 +122,11 @@ const SubCategory = () => {
 
   return (
     <div className="subcategory-dashboard-container">
-      <h2 className="subcategory-heading">Create a New Subcategory</h2>
+      <h2 className="subcategory-heading">أدخل فئة فرعية</h2>
       <form onSubmit={handleSubmit} className="subcategory-form">
         <div className="form-group">
           <label htmlFor="subcategoryName" className="label">
-            Subcategory Name
+            اسم الفئة الفرعية
           </label>
           <input
             type="text"
@@ -141,13 +139,13 @@ const SubCategory = () => {
         </div>
         <div className="form-group">
           <label htmlFor="categorySelect" className="label">
-            Select Category
+            اختار الفئة
           </label>
           {categoriesLoading ? (
-            <p className="loading-text">Loading categories...</p>
+            <p className="loading-text">يتم تحميل الفئات...</p>
           ) : categoriesError ? (
             <p className="error-text">
-              Error fetching categories: {categoriesError.message}
+              خطأ في تحميل الفئات: {categoriesError.message}
             </p>
           ) : (
             <select
@@ -157,7 +155,7 @@ const SubCategory = () => {
               required
               className="select"
             >
-              <option value="">Select a category</option>
+              <option value="">اختر فئة</option>
               {categoryList.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -167,22 +165,22 @@ const SubCategory = () => {
           )}
         </div>
         <button type="submit" disabled={isCreating} className="btn-submit">
-          {isCreating ? "Creating..." : "Create Subcategory"}
+          {isCreating ? "يتم الإنشاء..." : "إنشاء فئة فرعية"}
         </button>
       </form>
 
       {isError && createError && (
-        <p className="error-text">Error: {createError.data.ExtendedMessage}</p>
+        <p className="error-text">خطأ: {createError.data.ExtendedMessage}</p>
       )}
       {isSuccess && (
-        <p className="success-text">Subcategory created successfully!</p>
+        <p className="success-text">تمت إضافة الفئة الفرعية بنجاح</p>
       )}
 
-      <h3>Categories</h3>
+      <h3>الفئات</h3>
       {categoriesLoading ? (
-        <p>Loading categories...</p>
+        <p>يتم تحميل الفئات...</p>
       ) : categoriesError ? (
-        <p>Error fetching categories: {categoriesError.message}</p>
+        <p>خطأ في جلب البيانات: {categoriesError.message}</p>
       ) : (
         <div className="category-list">
           {categoryList.map((category) => (
@@ -196,15 +194,15 @@ const SubCategory = () => {
               {selectedCategoryId === category.id && (
                 <div>
                   {subCategoriesLoading ? (
-                    <p>Loading subcategories...</p>
+                    <p>يتم تحميل الفئات الفرعية...</p>
                   ) : subCategoriesError ? (
                     <p>
-                      Error fetching subcategories: {subCategoriesError.message}
+                      خطأ في جلب الفئات الفرعية: {subCategoriesError.message}
                     </p>
                   ) : (
                     <ul>
                       {subCategoryData?.data?.length === 0 ? (
-                        <p>No subcategories available.</p>
+                        <p>لا يوجد فئات فرعية.</p>
                       ) : (
                         subCategoryData?.data?.map((subcategory) => (
                           <li key={subcategory.id} className="subcategory-item">
@@ -221,13 +219,13 @@ const SubCategory = () => {
                                   onClick={handleSaveEdit}
                                   className="btn-save"
                                 >
-                                  Save
+                                  حفظ
                                 </button>
                                 <button
                                   onClick={handleCancelEdit}
                                   className="btn-cancel"
                                 >
-                                  Cancel
+                                  الغاء
                                 </button>
                               </div>
                             ) : (
@@ -242,7 +240,7 @@ const SubCategory = () => {
                                   }
                                   className="btn-edit"
                                 >
-                                  Edit
+                                  تعديل
                                 </button>
                                 <button
                                   onClick={() =>
@@ -250,7 +248,7 @@ const SubCategory = () => {
                                   }
                                   className="btn-delete"
                                 >
-                                  Delete
+                                  حذف
                                 </button>
                               </div>
                             )}

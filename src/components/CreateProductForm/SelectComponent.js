@@ -15,7 +15,7 @@ const SelectComponent = ({ id, name, options, onChange, value }) => {
         }
       >
         <option value="" disabled>
-          Select {name}
+          اختر فئة فرعية
         </option>
         {options?.map((opt) => (
           <option key={opt.value} value={opt.value}>

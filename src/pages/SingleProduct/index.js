@@ -12,17 +12,11 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
 
   const [quantity, setQuantity] = useState(1);
-  const [showOrderForm, setShowOrderForm] = useState(false);
-  const [formData, setFormData] = useState({
-    phoneNumber: "",
-    location: "",
-    description: "",
-  });
 
   const { data: product, isLoading, isError } = useGetProductDetailsQuery(id);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError || !product) return <p>Product not found.</p>;
+  if (isLoading) return <p>يتم التحميل...</p>;
+  if (isError || !product) return <p>المنتج غير موجود.</p>;
 
   const handleQuantityChange = (e) => {
     const value = Math.max(1, parseInt(e.target.value) || 1);
@@ -40,25 +34,7 @@ const SingleProduct = () => {
         quantity * (product.data.priceAfterDiscount || product.data.price),
     };
     dispatch(addToCart(cartItem));
-    toast("Product added to cart!");
-  };
-
-  const handleOrderClick = () => {
-    setShowOrderForm(true);
-  };
-
-  const handleCancelClick = () => {
-    setShowOrderForm(false);
-  };
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Order submitted:", { ...formData, quantity });
-    setShowOrderForm(false);
+    toast("تمت إضافة المنتج إلى السلّة!");
   };
 
   return (
@@ -83,7 +59,9 @@ const SingleProduct = () => {
         </div>
 
         <div className="info">
-          <p>{product.data.subcategory}</p>
+          <p style={{ color: "#6366F1", fontWeight: "bold" }}>
+            {product.data.subcategory}
+          </p>
           <h1>{product.data.name}</h1>
           <p>{product.data.description}</p>
           <p>
@@ -118,75 +96,31 @@ const SingleProduct = () => {
             )}
           </p>
 
-          <div className="quantity-container">
-            <label>
-              Quantity:
-              <input
-                type="number"
-                value={quantity}
-                onChange={handleQuantityChange}
-                min="1"
-                style={{ marginLeft: "10px", width: "60px" }}
-              />
-            </label>
-          </div>
+          {product.quantity === 0 ? (
+            <p>نفدت الكمية</p>
+          ) : (
+            <div className="quantity-container">
+              <label>
+                Quantity:
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  min="1"
+                  style={{ marginLeft: "10px", width: "60px" }}
+                />
+              </label>
+            </div>
+          )}
         </div>
       </div>
 
       <div className="actions">
         <button onClick={handleAddToCart} className="add-to-cart-btn ">
-          Add to Cart
-        </button>
-        <button onClick={handleOrderClick} className="order-product-btn">
-          Order Product
+          أضف إلى السلّة
         </button>
       </div>
 
-      {showOrderForm && (
-        <div className="order-form">
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>
-                Phone Number:
-                <input
-                  type="text"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleInputChange}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Location:
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleInputChange}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Description:
-                <input
-                  type="text"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                />
-              </label>
-            </div>
-            <div>
-              <button type="submit">Submit Order</button>
-              <button type="button" onClick={handleCancelClick}>
-                Cancel Order
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
       <ToastContainer />
     </div>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import "./style.css";
+
 const FormField = ({
   label,
   id,
@@ -9,21 +10,33 @@ const FormField = ({
   error,
   placeholder,
   type,
+  icon,
 }) => {
   return (
     <div className="form-group">
       <label htmlFor={id}>{label}:</label>
-      <input
-        className="input"
-        type={type || "text"}
-        id={id}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={value}
-        placeholder={placeholder}
-      />
+      <div className="input-container">
+        <input
+          className="input"
+          type={type || "text"}
+          id={id}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={value}
+          placeholder={placeholder}
+        />
+        {icon && <span className="icon">{icon}</span>}
+      </div>
       {error && (
-        <small style={{ color: "red", fontWeight: "bold" }}>{error}</small>
+        <small
+          style={{
+            color: "red",
+            display: "block",
+            marginTop: "-.1rem",
+          }}
+        >
+          {error}
+        </small>
       )}
     </div>
   );

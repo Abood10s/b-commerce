@@ -46,6 +46,17 @@
     font-weight: bold;
 }
 
+.cart-remove-btn {
+    padding: .5rem 2rem;
+    outline: none;
+    font-size: 1rem;
+    background-color: #6366F1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
 
 /* Footer section for the cart page */
 

@@ -14,11 +14,8 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-}
-
-.products-table thead {
-    background-color: #007bff;
-    color: white;
+    overflow-x: auto;
+    /* إضافة خاصية overflow للجدول */
 }
 
 .products-table th,
@@ -28,19 +25,17 @@
     border: 1px solid #ddd;
 }
 
+.products-table th {
+    background-color: #007bff;
+    color: white;
+}
+
 .products-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
 .products-table tr:hover {
     background-color: #e9ecef;
-}
-
-.product-image {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 8px;
 }
 
 
@@ -138,4 +133,25 @@
 
 .modal-content button:hover {
     opacity: 0.9;
+}
+
+.control-edit {
+    background-color: #6366F1;
+    color: #fff;
+    outline: none;
+    border: none;
+    padding: .3rem 1rem;
+    cursor: pointer;
+    margin: 0 .7rem;
+    border-radius: 6px;
+}
+
+.control-delete {
+    background-color: red;
+    color: #fff;
+    outline: none;
+    border: none;
+    padding: .3rem 1rem;
+    cursor: pointer;
+    border-radius: 6px;
 }

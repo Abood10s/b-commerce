@@ -88,7 +88,7 @@ const ProductList = ({ products }) => {
   if (!products || products.length === 0) {
     return (
       <p style={{ textAlign: "center", margin: "1rem auto" }}>
-        No products available.
+        ليس هناك منتجات.
       </p>
     );
   }

@@ -4,7 +4,7 @@ import { clearCart, removeFromCart } from "../../features/slices/cartSlice";
 import "./style.css";
 import Modal from "../../components/Modal";
 import { useCreateOrderMutation } from "../../features/api/orderApi";
-import { toast } from "react-toastify"; // Import toast from react-toastify
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -65,23 +65,23 @@ const Cart = () => {
   if (cart.length === 0) {
     return (
       <p className="cart-empty-message" style={{ marginTop: "1rem" }}>
-        Your cart is empty.
+        السلّة فارغة
       </p>
     );
   }
 
   return (
     <div className="cart-container">
-      <h1 className="cart-title">Your Cart</h1>
+      <h1 className="cart-title">سلّتك</h1>
       <table className="cart-table">
         <thead>
           <tr>
-            <th>Image</th>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Action</th>
+            <th>الصورة</th>
+            <th>المنتج</th>
+            <th>السعر</th>
+            <th>الكمية</th>
+            <th>المجموع</th>
+            <th>العمل</th>
           </tr>
         </thead>
         <tbody>
@@ -103,7 +103,7 @@ const Cart = () => {
                   onClick={() => handleRemoveItem(item.id)}
                   className="cart-remove-btn"
                 >
-                  Remove
+                  إزالة
                 </button>
               </td>
             </tr>
@@ -112,20 +112,20 @@ const Cart = () => {
       </table>
       <div className="cart-footer">
         <h3 className="cart-total">
-          Grand Total: $
+          المجموع: $
           {cart
             .reduce((acc, item) => acc + item.price * item.quantity, 0)
             .toFixed(2)}
         </h3>
         <div className="cart-buttons">
           <button className="cart-order-btn" onClick={handleOrderClick}>
-            Order
+            اطلب
           </button>
           <button
             className="cart-clear-btn"
             onClick={() => dispatch(clearCart())}
           >
-            Clear Cart
+            افراغ السلة
           </button>
         </div>
       </div>

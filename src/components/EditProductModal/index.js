@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./editmodal.css";
+
 const EditProductModal = ({
   isOpen,
   onClose,
@@ -9,16 +10,27 @@ const EditProductModal = ({
   handleInputChange,
   handleImageChange,
   selectedProduct,
-  productDetails, // Pass productDetails from ControlProducts
+  productDetails,
 }) => {
-  console.log("Selected Product:", selectedProduct);
-  console.log("Product Details:", productDetails); // Debugging
+  const [discountPercentagePublic, setDiscountPercentagePublic] = useState(
+    formData.discount || 0
+  );
+
+  const handleDiscountChange = (e) => {
+    const discountValue = parseFloat(e.target.value) || 0;
+    setDiscountPercentagePublic(discountValue);
+
+    // إذا كنت تريد تحديث formData، قم بتحديث الحقل المناسب
+    handleInputChange({
+      target: { name: "discount", value: discountValue },
+    });
+  };
 
   return ReactDOM.createPortal(
     isOpen ? (
       <div className="edit-modal-overlay">
         <div className="edit-modal-content">
-          <h2>Edit Product</h2>
+          <h2>تعديل المنتج</h2>
           <form onSubmit={onSubmit} className="edit-product-form">
             <div className="edit-product-form-header">
               <img
@@ -31,7 +43,6 @@ const EditProductModal = ({
               <p>{selectedProduct?.name}</p>
             </div>
 
-            {/* Display existing images */}
             {productDetails?.images?.length > 0 && (
               <div>
                 <label>Existing Images:</label>
@@ -49,7 +60,7 @@ const EditProductModal = ({
             )}
 
             <div>
-              <label>Name:</label>
+              <label>اسم المنتج:</label>
               <input
                 type="text"
                 name="name"
@@ -59,7 +70,7 @@ const EditProductModal = ({
             </div>
 
             <div>
-              <label>Description:</label>
+              <label>الوصف:</label>
               <textarea
                 name="description"
                 value={formData.description}
@@ -68,7 +79,7 @@ const EditProductModal = ({
             </div>
 
             <div>
-              <label>Price:</label>
+              <label>السعر:</label>
               <input
                 type="number"
                 name="price"
@@ -78,17 +89,17 @@ const EditProductModal = ({
             </div>
 
             <div>
-              <label>Discount:</label>
+              <label>نسبة الخصم:</label>
               <input
                 type="number"
                 name="discount"
-                value={formData.discount}
-                onChange={handleInputChange}
+                value={discountPercentagePublic.toFixed(2)}
+                onChange={handleDiscountChange} // تحديث الحقل
               />
             </div>
 
             <div>
-              <label>Main Image:</label>
+              <label>الصورة الرئيسية:</label>
               <input
                 type="file"
                 name="image"
@@ -98,7 +109,7 @@ const EditProductModal = ({
             </div>
 
             <div>
-              <label>Additional Images:</label>
+              <label>الصور الإضافية:</label>
               <input
                 type="file"
                 name="images"
@@ -108,9 +119,11 @@ const EditProductModal = ({
               />
             </div>
 
-            <button type="submit">Update Product</button>
+            <button type="submit" style={{ marginBottom: "5px" }}>
+              تعديل
+            </button>
             <button type="button" onClick={onClose} className="cancel-button">
-              Cancel
+              إلغاء
             </button>
           </form>
         </div>

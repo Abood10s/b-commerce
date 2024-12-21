@@ -3,8 +3,10 @@ import { useFormik } from "formik";
 import { productSchema } from "../../Schemas";
 import { useCreateProductMutation } from "../../features/api/productsApi";
 import { useGetAllSubCategoriesQuery } from "../../features/api/subCategoryApi";
-import { useGetProductsQuery } from "../../features/api/productsApi"; // Import getProducts query
-import { toast } from "react-toastify";
+
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import SelectComponent from "./SelectComponent";
 import "./style.css";
 
@@ -12,11 +14,6 @@ const ProductForm = () => {
   const { data: subcategories, isLoading: subcategoriesLoading } =
     useGetAllSubCategoriesQuery();
   const [createProduct, { isLoading: isCreating }] = useCreateProductMutation();
-  const { data: products, isLoading: productsLoading } = useGetProductsQuery({
-    page: 1,
-    subcategoryId: 1,
-  });
-  const [createdProductId, setCreatedProductId] = React.useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -27,6 +24,7 @@ const ProductForm = () => {
       discount: "",
       image: null,
       images: [],
+      quantity: 0,
     },
     validationSchema: productSchema,
     onSubmit: async (values, { resetForm }) => {
@@ -57,11 +55,11 @@ const ProductForm = () => {
 
       try {
         const response = await createProduct(formData);
-        toast.success("Product created successfully!");
+        toast.success("تمت إضافة المنتج بنجاح!");
         resetForm();
       } catch (error) {
         console.error("Error creating product:", error);
-        toast.error("Error creating product. Please try again.");
+        toast.error("حدث خطأ في إضافة المنتج");
       }
     },
   });
@@ -69,11 +67,11 @@ const ProductForm = () => {
   return (
     <div className="product-form-container">
       <form onSubmit={formik.handleSubmit} className="product-form">
-        <h2 className="form-title">Create Product</h2>
+        <h2 className="form-title">إدخال منتج جديد</h2>
 
         <div className="form-group">
           <label htmlFor="name" className="form-label">
-            Product Name
+            اسم المنتج
           </label>
           <input
             id="name"
@@ -91,7 +89,7 @@ const ProductForm = () => {
 
         <div className="form-group">
           <label htmlFor="description" className="form-label">
-            Description
+            الوصف
           </label>
           <textarea
             id="description"
@@ -108,10 +106,10 @@ const ProductForm = () => {
 
         <div className="form-group">
           <label htmlFor="subcategoryId" className="form-label">
-            Subcategory
+            الفئة الفرعية
           </label>
           {subcategoriesLoading ? (
-            <div className="form-loading">Loading subcategories...</div>
+            <div className="form-loading">جاري تحميل الفئات الفرعية...</div>
           ) : (
             <SelectComponent
               id="subcategoryId"
@@ -133,7 +131,7 @@ const ProductForm = () => {
 
         <div className="form-group">
           <label htmlFor="price" className="form-label">
-            Price
+            السعر
           </label>
           <input
             id="price"
@@ -151,7 +149,7 @@ const ProductForm = () => {
 
         <div className="form-group">
           <label htmlFor="discount" className="form-label">
-            Discount
+            نسبة الخصم
           </label>
           <input
             id="discount"
@@ -169,7 +167,7 @@ const ProductForm = () => {
 
         <div className="form-group">
           <label htmlFor="image" className="form-label">
-            Main Image
+            الصورة الرئيسية
           </label>
           <input
             id="image"
@@ -187,7 +185,7 @@ const ProductForm = () => {
 
         <div className="form-group">
           <label htmlFor="images" className="form-label">
-            Additional Images
+            صور إضافية
           </label>
           <input
             id="images"
@@ -203,15 +201,33 @@ const ProductForm = () => {
             <div className="form-error">{formik.errors.images}</div>
           ) : null}
         </div>
+        <div className="form-group">
+          <label htmlFor="quantity" className="form-label">
+            الكمية
+          </label>
+          <input
+            id="quantity"
+            name="quantity"
+            type="number"
+            className="form-input"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.quantity}
+          />
+          {formik.touched.quantity && formik.errors.quantity ? (
+            <div className="form-error">{formik.errors.quantity}</div>
+          ) : null}
+        </div>
 
         <button
           type="submit"
           className="form-submit-button"
           disabled={isCreating}
         >
-          {isCreating ? "Creating..." : "Create Product"}
+          {isCreating ? "جاري الإنشاء..." : "إضافة"}
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };
