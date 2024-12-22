@@ -51,6 +51,8 @@
 
 .edit-product-form-header img {
     height: 85px;
+    display: block;
+    margin: 0.3rem auto;
 }
 
 .edit-product-form button {
@@ -72,4 +74,11 @@
 
 .edit-product-form .cancel-button:hover {
     background-color: #5a6268;
+}
+
+@media (max-width: 768px) {
+    .edit-modal-content {
+        width: 90%;
+        padding: 1rem .5rem;
+    }
 }

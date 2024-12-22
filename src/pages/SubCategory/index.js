@@ -189,7 +189,7 @@ const SubCategory = () => {
               className="category-item"
               onClick={() => handleCategoryClick(category.id)}
             >
-              <h4>{category.name}</h4>
+              <h4>{category.name} (اضغط لعرض الفئات الفرعية)</h4>
 
               {selectedCategoryId === category.id && (
                 <div>
@@ -231,25 +231,27 @@ const SubCategory = () => {
                             ) : (
                               <div className="subcategory-item-content">
                                 <span>{subcategory.name}</span>
-                                <button
-                                  onClick={() =>
-                                    handleEditClick(
-                                      subcategory.id,
-                                      subcategory.name
-                                    )
-                                  }
-                                  className="btn-edit"
-                                >
-                                  تعديل
-                                </button>
-                                <button
-                                  onClick={() =>
-                                    handleDeleteClick(subcategory.id)
-                                  }
-                                  className="btn-delete"
-                                >
-                                  حذف
-                                </button>
+                                <div>
+                                  <button
+                                    onClick={() =>
+                                      handleEditClick(
+                                        subcategory.id,
+                                        subcategory.name
+                                      )
+                                    }
+                                    className="btn-edit"
+                                  >
+                                    تعديل
+                                  </button>
+                                  <button
+                                    onClick={() =>
+                                      handleDeleteClick(subcategory.id)
+                                    }
+                                    className="btn-delete"
+                                  >
+                                    حذف
+                                  </button>
+                                </div>
                               </div>
                             )}
                           </li>

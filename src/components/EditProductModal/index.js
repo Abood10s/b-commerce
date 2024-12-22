@@ -51,7 +51,7 @@ const EditProductModal = ({
                     <img
                       key={index}
                       src={`${process.env.REACT_APP_API_SINGLE_PRODUCT_IMAGE_URL}${image}`}
-                      alt={`Product Image ${index + 1}`}
+                      alt={`Product Image: ${index + 1}`}
                       className="existing-product-image"
                     />
                   ))}

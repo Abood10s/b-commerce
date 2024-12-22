@@ -70,7 +70,6 @@ const Navbar = () => {
               fontWeight: "bold",
               display: "flex",
               alignItems: "center",
-              gap: "3px",
             }}
           >
             <CartHover>

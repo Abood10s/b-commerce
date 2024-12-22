@@ -86,7 +86,7 @@ const Cart = () => {
         </thead>
         <tbody>
           {cart.map((item) => (
-            <tr key={item.id}>
+            <tr key={item.id} align="center">
               <td>
                 <img
                   src={`${process.env.REACT_APP_API_SINGLE_PRODUCT_MAIN_IMAGE_URL}${item.image}`}

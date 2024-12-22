@@ -152,7 +152,7 @@ button {
     }
     .category-item-content {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
     }
     .category-name {
         margin-bottom: 10px;

@@ -125,7 +125,7 @@ const ControlProducts = () => {
   };
 
   return (
-    <div className="control-products-container">
+    <div className="controlling-products-container">
       {isLoading && <p>يتم التحميل...</p>}
       {error && <p>خطأ في جلب البيانات.</p>}
       {products?.data.products && (
@@ -161,7 +161,7 @@ const ControlProducts = () => {
                   ).toFixed(2)}
                   %
                 </td>
-                <td>
+                <td className="action-btns">
                   <button
                     className="control-edit"
                     onClick={() => handleEdit(product)}

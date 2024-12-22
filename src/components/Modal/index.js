@@ -32,6 +32,7 @@ const Modal = ({
                   name="phoneNumber"
                   value={orderFormData.phoneNumber}
                   onChange={handleInputChange}
+                  required
                 />
               </label>
             </div>
@@ -43,6 +44,7 @@ const Modal = ({
                   name="location"
                   value={orderFormData.location}
                   onChange={handleInputChange}
+                  required
                 />
               </label>
             </div>
@@ -54,11 +56,14 @@ const Modal = ({
                   name="description"
                   value={orderFormData.description}
                   onChange={handleInputChange}
+                  required
                 />
               </label>
             </div>
-            <div>
-              <button type="submit">Submit Order</button>
+            <div style={{ display: "grid", placeItems: "center" }}>
+              <button type="submit" style={{ marginBottom: "1rem" }}>
+                Submit Order
+              </button>
               <button type="button" onClick={onClose}>
                 Cancel Order
               </button>

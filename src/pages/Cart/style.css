@@ -31,8 +31,10 @@
     border-collapse: collapse;
     margin-bottom: 20px;
     overflow-x: auto;
-    /* Enables horizontal scroll */
 }
+
+
+/* Table cells and headers */
 
 .cart-table th,
 .cart-table td {
@@ -46,6 +48,17 @@
     font-weight: bold;
 }
 
+
+/* Image styles */
+
+.cart-p-img {
+    max-width: 100px;
+    height: auto;
+}
+
+
+/* Remove button */
+
 .cart-remove-btn {
     padding: .5rem 2rem;
     outline: none;
@@ -55,6 +68,43 @@
     border-radius: 5px;
     cursor: pointer;
     color: white;
+}
+
+
+/* Responsive adjustments */
+
+@media screen and (max-width: 768px) {
+    .cart-table {
+        display: block;
+        overflow-x: auto;
+        display: grid;
+        place-items: center;
+    }
+    .cart-table thead {
+        display: none;
+        margin: 1rem auto;
+    }
+    .cart-table tr {
+        display: block;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+        outline: 2px solid #123;
+        border-radius: 6px;
+    }
+    .cart-table td {
+        display: block;
+        text-align: center;
+        padding: 8px;
+    }
+    .cart-table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    .cart-p-img {
+        max-width: 50px;
+    }
 }
 
 

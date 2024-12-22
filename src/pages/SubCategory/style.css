@@ -134,10 +134,13 @@
     padding: 8px;
     width: 200px;
     margin-right: 10px;
+    margin-left: 15px;
 }
 
 .subcategory-edit-form button {
     margin-left: 5px;
+    display: block;
+    padding: .5rem 1rem;
 }
 
 .subcategory-container {

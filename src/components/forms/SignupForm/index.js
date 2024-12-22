@@ -37,7 +37,7 @@ const SignupForm = () => {
 
       try {
         const response = await register(dataToSubmit).unwrap();
-        console.log(response);
+
         if (response.isSuccess) {
           toast.success("تم تسجيلك بنجاح", {
             theme: "colored",

@@ -35,7 +35,7 @@ const LoginForm = () => {
               token: response.data.token,
             })
           );
-          console.log("Login successful", response.data);
+
           navigate(PATHS.HOME);
           resetForm();
         }

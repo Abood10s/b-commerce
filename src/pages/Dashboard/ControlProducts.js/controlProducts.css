@@ -1,27 +1,28 @@
-.control-products {
+.controlling-products-container {
     padding: 20px;
-    max-width: 1200px;
     margin: 0 auto;
     background: #fff;
+    width: 90%;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: grid;
+    place-items: center;
 }
 
 
 /* Products Table */
 
 .products-table {
-    width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     overflow-x: auto;
-    /* إضافة خاصية overflow للجدول */
 }
 
 .products-table th,
 .products-table td {
     padding: 12px 16px;
-    text-align: left;
+    text-align: center;
     border: 1px solid #ddd;
 }
 
@@ -36,6 +37,66 @@
 
 .products-table tr:hover {
     background-color: #e9ecef;
+}
+
+.products-table tr {
+    overflow-x: auto;
+}
+
+.products-table td img {
+    height: 75px;
+}
+
+
+/* Responsive design for smaller screens */
+
+@media (max-width: 768px) {
+    .controlling-products-container {
+        width: 100%;
+        padding: 10px;
+    }
+    .products-table {
+        display: block;
+        overflow-x: auto;
+        width: 95%;
+    }
+    .products-table thead {
+        display: none;
+    }
+    .products-table tr {
+        display: block;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+    }
+    .products-table td {
+        display: block;
+        text-align: center;
+        border: none;
+        padding: 8px 10px;
+        position: relative;
+    }
+    .products-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-transform: uppercase;
+        position: absolute;
+        left: 10px;
+        top: 8px;
+        color: #007bff;
+    }
+    .products-table td img {
+        display: block;
+        margin: 0 auto 10px;
+        height: 50px;
+    }
+    .action-btns {
+        text-align: center;
+        margin-top: 10px;
+    }
+    .control-edit,
+    .control-delete {
+        margin: 0 5px;
+    }
 }
 
 
@@ -71,6 +132,9 @@
 
 /* Modal */
 
+
+/* Responsive Modal */
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -82,21 +146,27 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    padding: 20px;
+    /* For small-screen padding */
+    overflow-y: auto;
+    /* Allow vertical scrolling if content overflows */
 }
 
 .modal-content {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
-    width: 90%;
+    width: 100%;
     max-width: 500px;
     text-align: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
 }
 
 .modal-content h2 {
     margin-bottom: 20px;
     color: #333;
+    font-size: 1.5rem;
 }
 
 .modal-content form {
@@ -107,18 +177,53 @@
 
 .modal-content input,
 .modal-content textarea {
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
+    font-size: 1rem;
+}
+
+.modal-content textarea {
+    resize: none;
+    /* Prevent unwanted resizing */
 }
 
 .modal-content button {
-    padding: 8px 12px;
+    padding: 10px 14px;
     border: none;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 1rem;
     cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+
+
+/* Responsive adjustments */
+
+@media (max-width: 768px) {
+    .modal-content {
+        width: 100%;
+        max-width: 90%;
+    }
+    .modal-content h2 {
+        font-size: 1.2rem;
+    }
+    .modal-content input,
+    .modal-content textarea {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+    .modal-content button {
+        font-size: 0.9rem;
+        padding: 8px 10px;
+    }
 }
 
 .modal-content button[type="submit"] {
@@ -139,19 +244,23 @@
     background-color: #6366F1;
     color: #fff;
     outline: none;
+    font-size: 1rem;
     border: none;
     padding: .3rem 1rem;
     cursor: pointer;
-    margin: 0 .7rem;
+    margin: .5rem .7rem;
     border-radius: 6px;
+    display: inline-block;
 }
 
 .control-delete {
     background-color: red;
     color: #fff;
-    outline: none;
+    font-size: 1rem;
     border: none;
     padding: .3rem 1rem;
     cursor: pointer;
+    margin: .5rem .7rem;
     border-radius: 6px;
+    display: inline-block;
 }

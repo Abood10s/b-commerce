@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { logout } from "../../features/slices/authSlice";
 import ProductLister from "../../components/ProductLister";
 import {
   useGetProductsByCategoryQuery,
@@ -49,7 +48,7 @@ const HomePage = () => {
 
   const handleAllClick = () => {
     setSelectedCategoryId(null);
-    setSelectedSubcategoryId(null); 
+    setSelectedSubcategoryId(null);
   };
 
   const productsToDisplay =

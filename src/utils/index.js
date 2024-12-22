@@ -58,7 +58,6 @@ export const AuthenticatedUserRedirect = () => {
 };
 export const AdminToken = ({ children }) => {
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
 
   if (user?.userTypeName === "Admin" && user?.userType === 1) {
     return children;
