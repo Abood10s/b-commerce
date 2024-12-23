@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart, removeFromCart } from "../../features/slices/cartSlice";
+import {
+  clearCart,
+  removeFromCart,
+  updateCartItem,
+} from "../../features/slices/cartSlice";
 import "./style.css";
 import Modal from "../../components/Modal";
 import { useCreateOrderMutation } from "../../features/api/orderApi";
 import { toast } from "react-toastify";
+import CartItem from "../../components/CatrItem";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -22,6 +27,7 @@ const Cart = () => {
   const handleOrderClick = () => {
     setIsModalOpen(true);
   };
+
   const handleModalSubmit = async (e) => {
     e.preventDefault();
 
@@ -62,6 +68,12 @@ const Cart = () => {
     toast.success("Item removed from cart.");
   };
 
+  const handleQuantityChange = (productId, newQuantity) => {
+    dispatch(
+      updateCartItem({ productId, quantity: parseInt(newQuantity, 10) })
+    );
+  };
+
   if (cart.length === 0) {
     return (
       <p className="cart-empty-message" style={{ marginTop: "1rem" }}>
@@ -72,51 +84,32 @@ const Cart = () => {
 
   return (
     <div className="cart-container">
-      <h1 className="cart-title">سلّتك</h1>
-      <table className="cart-table">
-        <thead>
-          <tr>
-            <th>الصورة</th>
-            <th>المنتج</th>
-            <th>السعر</th>
-            <th>الكمية</th>
-            <th>المجموع</th>
-            <th>العمل</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cart.map((item) => (
-            <tr key={item.id} align="center">
-              <td>
-                <img
-                  src={`${process.env.REACT_APP_API_SINGLE_PRODUCT_MAIN_IMAGE_URL}${item.image}`}
-                  alt={item.name}
-                  className="cart-p-img"
-                />
-              </td>
-              <td>{item.name}</td>
-              <td>${item.price.toFixed(2)}</td>
-              <td>{item.quantity}</td>
-              <td>${(item.price * item.quantity).toFixed(2)}</td>
-              <td>
-                <button
-                  onClick={() => handleRemoveItem(item.id)}
-                  className="cart-remove-btn"
-                >
-                  إزالة
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="cart-page-header">
+        <div className="header-text">
+          <h3 style={{ display: "inline" }}>سلّتك:</h3>
+          <span className="cart-header-total">{` ${cart?.length} `}</span>
+        </div>
+        <div className="header-total">
+          <span>المجموع:</span>
+          <span className="cart-header-total">
+            {` ${cart
+              .reduce((acc, item) => acc + item.price * item.quantity, 0)
+              .toFixed(2)} شيكل`}
+          </span>
+        </div>
+      </div>
+      <div>
+        {cart.map((item) => (
+          <CartItem
+            item={item}
+            key={item.id}
+            handleRemoveItem={handleRemoveItem}
+            handleQuantityChange={handleQuantityChange}
+          />
+        ))}
+      </div>
+
       <div className="cart-footer">
-        <h3 className="cart-total">
-          المجموع: $
-          {cart
-            .reduce((acc, item) => acc + item.price * item.quantity, 0)
-            .toFixed(2)}
-        </h3>
         <div className="cart-buttons">
           <button className="cart-order-btn" onClick={handleOrderClick}>
             اطلب

@@ -35,6 +35,8 @@ const ProductForm = () => {
       formData.append("subcategoryId", values.subcategoryId);
       formData.append("price", values.price);
       formData.append("discount", values.discount);
+      formData.append("quantity", values.quantity);
+
       formData.append("image", values.image);
 
       for (const image of values.images) {
@@ -213,6 +215,7 @@ const ProductForm = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.quantity}
+            min="0"
           />
           {formik.touched.quantity && formik.errors.quantity ? (
             <div className="form-error">{formik.errors.quantity}</div>

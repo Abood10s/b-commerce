@@ -133,11 +133,7 @@ const ProductList = ({ products }) => {
                     fontWeight: "bold",
                   }}
                 >
-                  {(
-                    (1 - product.priceAfterDiscount / product.price) *
-                    100
-                  ).toFixed(0)}
-                  % off
+                  {product.discount}% off
                 </span>
               </>
             ) : (

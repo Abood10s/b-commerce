@@ -3,6 +3,16 @@
 .cart-container {
     padding: 20px;
     font-family: Arial, sans-serif;
+    width: 80%;
+    margin: 1rem auto;
+}
+
+.cart-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 1.5rem;
 }
 
 
@@ -70,6 +80,11 @@
     color: white;
 }
 
+.cart-header-total {
+    color: #6366F1;
+    font-weight: bold;
+}
+
 
 /* Responsive adjustments */
 
@@ -111,7 +126,8 @@
 /* Footer section for the cart page */
 
 .cart-footer {
-    text-align: right;
+    text-align: center;
+    margin: 1rem auto;
 }
 
 

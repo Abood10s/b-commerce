@@ -29,6 +29,7 @@ const SingleProduct = () => {
       name: product.data.name,
       price: product.data.priceAfterDiscount || product.data.price,
       image: product.data.image,
+      description: product.data.description,
       quantity,
       totalPrice:
         quantity * (product.data.priceAfterDiscount || product.data.price),

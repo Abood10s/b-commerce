@@ -14,9 +14,12 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../../features/slices/authSlice";
 
 const SignupForm = () => {
   const [register, { isLoading, isError, error }] = useRegisterMutation();
+  const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -36,19 +39,51 @@ const SignupForm = () => {
       const { confirmPassword, ...dataToSubmit } = values;
 
       try {
-        const response = await register(dataToSubmit).unwrap();
+        const response = await register(dataToSubmit).unwrap(); // التأكد من استخدام .unwrap() هنا
 
         if (response.isSuccess) {
+          // استخراج بيانات المستخدم من الاستجابة
+          const userData = response.data; // استخدم response.data بدلاً من response.data.user
+          const {
+            email,
+            fullName,
+            phoneNumber,
+            userType,
+            userTypeName,
+            token,
+          } = userData; // تفكيك البيانات
+
+          // تعيين بيانات المستخدم في localStorage
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              email,
+              fullName,
+              phoneNumber,
+              userType,
+              userTypeName,
+            })
+          );
+
+          dispatch(
+            setAuth({
+              user: userData,
+              token, // تعيين البيانات من الاستجابة
+            })
+          );
+
           toast.success("تم تسجيلك بنجاح", {
             theme: "colored",
             position: "top-center",
           });
-          setTimeout(() => {
-            navigate(PATHS.LOGIN);
-          }, 1500);
+          navigate(PATHS.HOME);
           resetForm();
         } else {
-          console.error("Signup failed: ", response.message);
+          console.error("Signup failed: ", response.message); // طباعة رسالة الخطأ
+          toast.error("حدث خطأ في التسجيل، يرجى المحاولة مرة أخرى.", {
+            theme: "colored",
+            position: "top-center",
+          });
         }
       } catch (error) {
         console.error("Signup failed", error);

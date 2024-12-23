@@ -18,7 +18,7 @@ export const orderApi = createApi({
 
   endpoints: (builder) => ({
     getOrders: builder.query({
-      query: () => `/Order/GetCustomerOrders`,
+      query: () => `/Order/getOrders`,
     }),
     getOrderDetails: builder.query({
       query: (id) => `/Order/GetOrderDetails?id=${id}`,

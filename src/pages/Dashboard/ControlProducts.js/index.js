@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import EditProductModal from "../../../components/EditProductModal";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // استيراد CSS الخاص بـ Toastify
+import "react-toastify/dist/ReactToastify.css";
 import "./controlProducts.css";
 import {
   useGetProductsQuery,
@@ -22,6 +22,7 @@ const ControlProducts = () => {
     subcategoryId: "",
     price: "",
     discount: "",
+    quantity: "",
     image: null,
     images: [],
   });
@@ -31,15 +32,13 @@ const ControlProducts = () => {
       skip: !selectedProduct?.id,
     });
 
-  let discountPercentagePublic = 0;
-
   useEffect(() => {
     if (error) {
       toast.error("خطأ في تحميل البيانات.");
     }
   }, [error]);
 
-  const handleEdit = async (product) => {
+  const handleEdit = (product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
 
@@ -49,14 +48,11 @@ const ControlProducts = () => {
         description: product.description,
         subcategoryId: product.subcategoryId,
         price: product.price,
-        discount: product.discount,
+        discount: product.discount || 0,
+        quantity: product.quantity || 0,
         image: null,
         images: [],
       });
-
-      // حساب نسبة الخصم
-      const discountAmount = product.price - product.priceAfterDiscount;
-      discountPercentagePublic = (discountAmount / product.price) * 100;
     }
   };
 
@@ -69,17 +65,14 @@ const ControlProducts = () => {
       toast.error("حدث خطأ في حذف المنتج.");
     }
   };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
 
-    if (name === "price") {
-      const discountAmount = selectedProduct.price - value;
-      discountPercentagePublic = (discountAmount / selectedProduct.price) * 100;
-    }
+    setFormData({
+      ...formData,
+      [name]: name === "quantity" ? parseInt(value, 10) : value,
+    });
   };
-
   const handleImageChange = (e) => {
     const { name, files } = e.target;
     setFormData({
@@ -87,24 +80,16 @@ const ControlProducts = () => {
       [name]: name === "images" ? Array.from(files) : files[0],
     });
   };
-
   const handleUpdate = async (e) => {
     e.preventDefault();
-    if (!selectedProduct.id) {
-      console.error("Selected product ID is missing.");
-      return;
-    }
-
     const updatedFormData = new FormData();
     updatedFormData.append("Id", selectedProduct.id);
     updatedFormData.append("Name", formData.name);
     updatedFormData.append("Description", formData.description);
     updatedFormData.append("SubcategoryId", formData.subcategoryId);
     updatedFormData.append("Price", formData.price);
-
-    const discountAmount = selectedProduct.price - formData.price;
-    const discountPercentage = (discountAmount / selectedProduct.price) * 100;
-    updatedFormData.append("Discount", discountPercentage.toFixed(2));
+    updatedFormData.append("quantity", formData.quantity);
+    updatedFormData.append("discount", formData.discount);
 
     if (formData.image) {
       updatedFormData.append("Image", formData.image);
@@ -128,7 +113,7 @@ const ControlProducts = () => {
     <div className="controlling-products-container">
       {isLoading && <p>يتم التحميل...</p>}
       {error && <p>خطأ في جلب البيانات.</p>}
-      {products?.data.products && (
+      {products?.data?.products?.length > 0 ? (
         <table className="products-table">
           <thead>
             <tr>
@@ -137,6 +122,7 @@ const ControlProducts = () => {
               <th>الوصف</th>
               <th>السعر</th>
               <th>نسبة الخصم</th>
+              <th>الكمية</th>
               <th>تعديل/حذف</th>
             </tr>
           </thead>
@@ -147,20 +133,15 @@ const ControlProducts = () => {
                 <td>
                   <img
                     src={`${process.env.REACT_APP_API_MAIN_IMAGE_URL}${product?.image}`}
-                    alt="product.name"
+                    alt={product.name}
                   />
                 </td>
-
                 <td>{product.description}</td>
                 <td>${product.price}</td>
                 <td>
-                  {(
-                    ((product.price - product.priceAfterDiscount) /
-                      product.price) *
-                    100
-                  ).toFixed(2)}
-                  %
+                  {product.discount ? `${product.discount.toFixed(2)}%` : "0%"}
                 </td>
+                <td>{product.quantity}</td>
                 <td className="action-btns">
                   <button
                     className="control-edit"
@@ -179,6 +160,8 @@ const ControlProducts = () => {
             ))}
           </tbody>
         </table>
+      ) : (
+        <p>ليس هناك منتجات لعرضها</p>
       )}
 
       {isModalOpen && selectedProduct && (

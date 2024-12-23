@@ -12,20 +12,6 @@ const EditProductModal = ({
   selectedProduct,
   productDetails,
 }) => {
-  const [discountPercentagePublic, setDiscountPercentagePublic] = useState(
-    formData.discount || 0
-  );
-
-  const handleDiscountChange = (e) => {
-    const discountValue = parseFloat(e.target.value) || 0;
-    setDiscountPercentagePublic(discountValue);
-
-    // إذا كنت تريد تحديث formData، قم بتحديث الحقل المناسب
-    handleInputChange({
-      target: { name: "discount", value: discountValue },
-    });
-  };
-
   return ReactDOM.createPortal(
     isOpen ? (
       <div className="edit-modal-overlay">
@@ -89,12 +75,23 @@ const EditProductModal = ({
             </div>
 
             <div>
+              <label>الكميّة:</label>
+              <input
+                type="number"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleInputChange}
+                min="0"
+              />
+            </div>
+
+            <div>
               <label>نسبة الخصم:</label>
               <input
                 type="number"
                 name="discount"
-                value={discountPercentagePublic.toFixed(2)}
-                onChange={handleDiscountChange} // تحديث الحقل
+                value={formData.discount}
+                onChange={handleInputChange}
               />
             </div>
 
