@@ -8,7 +8,7 @@ import {
 import "./style.css";
 import Modal from "../../components/Modal";
 import { useCreateOrderMutation } from "../../features/api/orderApi";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import CartItem from "../../components/CatrItem";
 
 const Cart = () => {
@@ -44,11 +44,14 @@ const Cart = () => {
     };
 
     try {
-      const result = await createOrder(orderData).unwrap();
+      const result = await createOrder(orderData).unwrap(); // Assuming `unwrap()` is properly returning data.
+      toast.success("تم إرسال الطلب بنجاح", {
+        theme: "colored",
+        position: "top-right",
+      });
       console.log("Order created successfully:", result);
-      dispatch(clearCart());
-      setIsModalOpen(false);
-      toast.success("Order placed successfully!");
+      dispatch(clearCart()); // Clear the cart after showing success message.
+      setTimeout(() => setIsModalOpen(false), 3000); // Close modal after 3 seconds.
     } catch (error) {
       console.error("Error creating order:", error);
       toast.error("Failed to place order. Please try again.");
@@ -132,6 +135,7 @@ const Cart = () => {
           handleInputChange={handleInputChange}
         />
       )}
+      <ToastContainer position="top-right" theme="colored" />
     </div>
   );
 };

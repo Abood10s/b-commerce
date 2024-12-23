@@ -26,6 +26,34 @@
     width: 150px;
 }
 
+.quantity {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.quantity input {
+    width: 50px;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.quantity input:focus {
+    border-color: #007bff;
+    /* Change to your desired color */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+.quantity-label {
+    font-weight: bold;
+}
+
 @media screen and (max-width: 780px) {
     .cart-item {
         padding: .5rem;

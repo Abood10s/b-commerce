@@ -58,23 +58,23 @@ const LoginForm = () => {
           </div>
 
           <FormField
-            label="Email Address"
+            label="البريد الإلكتروني"
             id="email"
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             value={formik.values.email}
             error={formik.touched.email && formik.errors.email}
-            placeholder="Enter Email Address"
+            placeholder="أدخل البريد الالكتروني"
           />
           <FormField
-            label="Password"
+            label="كلمة المرور"
             id="password"
             type={showPassword ? "text" : "password"}
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             value={formik.values.password}
             error={formik.touched.password && formik.errors.password}
-            placeholder="Enter Password"
+            placeholder="أدخل كلمة المرور"
             icon={
               showPassword ? (
                 <AiFillEyeInvisible

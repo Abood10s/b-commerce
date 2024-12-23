@@ -39,11 +39,10 @@ const SignupForm = () => {
       const { confirmPassword, ...dataToSubmit } = values;
 
       try {
-        const response = await register(dataToSubmit).unwrap(); // التأكد من استخدام .unwrap() هنا
+        const response = await register(dataToSubmit).unwrap();
 
         if (response.isSuccess) {
-          // استخراج بيانات المستخدم من الاستجابة
-          const userData = response.data; // استخدم response.data بدلاً من response.data.user
+          const userData = response.data;
           const {
             email,
             fullName,
@@ -51,9 +50,8 @@ const SignupForm = () => {
             userType,
             userTypeName,
             token,
-          } = userData; // تفكيك البيانات
+          } = userData;
 
-          // تعيين بيانات المستخدم في localStorage
           localStorage.setItem(
             "user",
             JSON.stringify({
@@ -68,7 +66,7 @@ const SignupForm = () => {
           dispatch(
             setAuth({
               user: userData,
-              token, // تعيين البيانات من الاستجابة
+              token,
             })
           );
 
@@ -79,7 +77,7 @@ const SignupForm = () => {
           navigate(PATHS.HOME);
           resetForm();
         } else {
-          console.error("Signup failed: ", response.message); // طباعة رسالة الخطأ
+          console.error("Signup failed: ", response.message);
           toast.error("حدث خطأ في التسجيل، يرجى المحاولة مرة أخرى.", {
             theme: "colored",
             position: "top-center",
@@ -100,42 +98,42 @@ const SignupForm = () => {
           <ToastContainer />
 
           <FormField
-            label="Full Name"
+            label="الاسم الكامل"
             id="fullName"
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             value={formik.values.fullName}
             error={formik.touched.fullName && formik.errors.fullName}
-            placeholder="Enter Full Name"
+            placeholder="أدخل الاسم الكامل"
           />
           <FormField
-            label="Email Address"
+            label="البريد الالكتروني"
             id="email"
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             value={formik.values.email}
             error={formik.touched.email && formik.errors.email}
-            placeholder="Enter Email Address"
+            placeholder="أدخل بريدك الالكتروني"
           />
           <FormField
-            label="Phone Number"
+            label="رقم الهاتف"
             id="phoneNumber"
             name="phoneNumber"
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             value={formik.values.phoneNumber}
             error={formik.touched.phoneNumber && formik.errors.phoneNumber}
-            placeholder="Enter Phone Number"
+            placeholder="أدخل رقم هاتفك"
           />
           <FormField
-            label="Password"
+            label="كلمة المرور"
             id="password"
             type={showPassword ? "text" : "password"}
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             value={formik.values.password}
             error={formik.touched.password && formik.errors.password}
-            placeholder="Enter Password"
+            placeholder="أدخل كلمة المرور"
             icon={
               showPassword ? (
                 <AiFillEyeInvisible
@@ -147,7 +145,7 @@ const SignupForm = () => {
             }
           />
           <FormField
-            label="Confirm Your Password"
+            label="تأكيد كلمة المرور"
             id="confirmPassword"
             name="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}
@@ -157,7 +155,7 @@ const SignupForm = () => {
             error={
               formik.touched.confirmPassword && formik.errors.confirmPassword
             }
-            placeholder="Confirm your password"
+            placeholder="تأكيد كلمة المرور"
             icon={
               showConfirmPassword ? (
                 <AiFillEyeInvisible

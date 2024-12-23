@@ -4,32 +4,29 @@ import * as yup from "yup";
 const phoneRegex = /^(059|056)\d{7}$/;
 
 export const loginSchema = yup.object().shape({
-  email: yup.string().email().required("You should have an email"),
-  password: yup.string().min(2).required("You should have a password"),
+  email: yup.string().email().required("يجب أن تدخل بريدك الالكتروني"),
+  password: yup.string().min(6).required("يجب إدخال كلمة المرور"),
 });
 
 export const SignupSchema = yup.object().shape({
   fullName: yup
     .string()
-    .trim() // Remove leading and trailing spaces
+    .trim()
     .transform((value) => value.replace(/\s+/g, " "))
-    .min(2, "Name must be at least 2 characters long")
-    .max(50, "Name cannot exceed 50 characters")
-    .matches(/^[a-zA-Z\s]+$/, "Name can only contain letters and spaces")
-    .required("Name is required"),
-  email: yup.string().email().required("You should have an email"),
+    .min(2, "يجب أن يتكون الاسم على الاقل من حرفين")
+    .max(50, "لا يجب أن يتجاوز الاسم 50 حرفا")
+    .matches(/^[a-zA-Z\s]+$/, "الاسم يحتوي على أحرف ومسافات فقط")
+    .required("الاسم مطلوب"),
+  email: yup.string().email().required("يجب أن يكون لديك بريد الكتروني"),
   phoneNumber: yup
     .string()
-    .matches(
-      phoneRegex,
-      "Phone number should start with 059 or 056 and then 7 digits."
-    )
-    .required("Phone number is required"),
-  password: yup.string().min(2).required("You should have a password"),
+    .matches(phoneRegex, "يجب أن يبدأ رقم الهاتف بـ 059 أو 056 ثم 7 أرقام.")
+    .required("رقم الهاتف المحمول لا يمكن أن يترك فارغا"),
+  password: yup.string().min(6).required("يجب أن يكون لديك كلمة مرور"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match") // Ensure the confirmPassword matches the password
-    .required("Confirm password is required"),
+    .oneOf([yup.ref("password"), null], "يجب أن تتطابق كلمات المرور")
+    .required("يجب أن تدخل كلمة المرور المطابقة"),
 });
 
 export const productSchema = yup.object().shape({

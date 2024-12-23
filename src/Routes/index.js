@@ -10,6 +10,7 @@ const HomePage = lazy(() => import("../pages/Home"));
 const Category = lazy(() => import("../pages/Category"));
 const SubCategory = lazy(() => import("../pages/SubCategory"));
 const Order = lazy(() => import("../pages/Order"));
+const SingleOrder = lazy(() => import("../pages/Order/SingleOrder"));
 
 const Product = lazy(() => import("../pages/Product"));
 const ControlProducts = lazy(() =>
@@ -72,6 +73,10 @@ export const router = [
       {
         path: `${PATHS.DASHBOARD}/order`,
         element: withAdminToken(Order),
+      },
+      {
+        path: `orders/:id`,
+        element: withAdminToken(SingleOrder),
       },
     ],
   },
