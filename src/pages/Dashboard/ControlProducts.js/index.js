@@ -27,10 +27,12 @@ const ControlProducts = () => {
     images: [],
   });
 
-  const { data: productDetails, isLoading: isProductDetailsLoading } =
-    useGetProductDetailsQuery(selectedProduct?.id, {
+  const { data: productDetails } = useGetProductDetailsQuery(
+    selectedProduct?.id,
+    {
       skip: !selectedProduct?.id,
-    });
+    }
+  );
 
   useEffect(() => {
     if (error) {

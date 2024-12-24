@@ -144,7 +144,7 @@ const ProductList = ({ products }) => {
           </p>
 
           <Link to={`/products/${product.id}`} className="details-link">
-            View Details
+            عرض التفاصيل
           </Link>
         </ProductCard>
       ))}

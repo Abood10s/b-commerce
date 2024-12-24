@@ -22,7 +22,10 @@ export const SignupSchema = yup.object().shape({
     .string()
     .matches(phoneRegex, "يجب أن يبدأ رقم الهاتف بـ 059 أو 056 ثم 7 أرقام.")
     .required("رقم الهاتف المحمول لا يمكن أن يترك فارغا"),
-  password: yup.string().min(6).required("يجب أن يكون لديك كلمة مرور"),
+  password: yup
+    .string()
+    .min(6, "يجب أن يكون طول كلمة المرور على الأقل 6")
+    .required("يجب أن يكون لديك كلمة مرور"),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password"), null], "يجب أن تتطابق كلمات المرور")

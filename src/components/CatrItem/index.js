@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 
 const CartItem = ({ item, handleRemoveItem, handleQuantityChange }) => {
-  const { name, description, quantity, price, totalPrice, image } = item;
+  const { name, description, quantity, totalPrice, image } = item;
 
   return (
     <div className="cart-item">

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { PATHS } from "../../Routes/index";
 
-import NavSearch from "./NavSearch";
 import {
   CartHover,
   DashboardButton,

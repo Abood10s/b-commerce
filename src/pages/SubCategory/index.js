@@ -36,15 +36,9 @@ const SubCategory = () => {
     { isLoading: isCreating, isSuccess, isError, error: createError },
   ] = useCreateSubCategoryMutation();
 
-  const [
-    updateSubCategory,
-    { isLoading: UpdateisUpdating, UpdateisSuccess, UpdateisError, error },
-  ] = useUpdateSubCategoryMutation();
+  const [updateSubCategory] = useUpdateSubCategoryMutation();
 
-  const [
-    deleteSubCategory,
-    { isLoading: isDeleting, isSuccess: deleteSuccess, error: deleteError },
-  ] = useDeleteSubCategoryMutation();
+  const [deleteSubCategory] = useDeleteSubCategoryMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

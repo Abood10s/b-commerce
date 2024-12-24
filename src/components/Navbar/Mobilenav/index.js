@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { PATHS } from "../../../Routes";
-import { BiCartAlt } from "react-icons/bi";
 import { useSelector } from "react-redux";
 
 const Nav = styled.div`

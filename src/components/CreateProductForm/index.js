@@ -57,6 +57,8 @@ const ProductForm = () => {
 
       try {
         const response = await createProduct(formData);
+        console.log(response);
+
         toast.success("تمت إضافة المنتج بنجاح!");
         resetForm();
       } catch (error) {

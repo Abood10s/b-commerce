@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import ProductLister from "../../components/ProductLister";
 import {
   useGetProductsByCategoryQuery,
@@ -15,7 +14,6 @@ import Spinner from "../../components/Spinner";
 import CategoryFilter from "../../components/CategoryFilter";
 
 const HomePage = () => {
-  const dispatch = useDispatch();
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(null);
 
@@ -44,11 +42,6 @@ const HomePage = () => {
 
   const handleSubcategoryClick = (subcategoryId) => {
     setSelectedSubcategoryId(subcategoryId);
-  };
-
-  const handleAllClick = () => {
-    setSelectedCategoryId(null);
-    setSelectedSubcategoryId(null);
   };
 
   const productsToDisplay =
