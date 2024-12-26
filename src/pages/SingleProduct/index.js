@@ -6,13 +6,14 @@ import { addToCart } from "../../features/slices/cartSlice";
 import "./style.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Spinner from "../../components/Spinner";
 
 const SingleProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
   const [quantity, setQuantity] = useState(1);
-  const [maxQuantity, setMaxQuantity] = useState(1); // Initialize max quantity
+  const [maxQuantity, setMaxQuantity] = useState(1);
 
   const { data: product, isLoading, isError } = useGetProductDetailsQuery(id);
 
@@ -25,7 +26,7 @@ const SingleProduct = () => {
     }
   }, [product, quantity]);
 
-  if (isLoading) return <p>يتم التحميل...</p>;
+  if (isLoading) return <Spinner />;
   if (isError || !product) return <p>المنتج غير موجود.</p>;
 
   const handleQuantityChange = (e) => {
@@ -95,12 +96,12 @@ const SingleProduct = () => {
                     marginRight: "10px",
                   }}
                 >
-                  ${product.data.price.toFixed(2)}
+                  {product.data.price.toFixed(2)}&#x20AA;
                 </span>
-                <span style={{ fontWeight: "bold", color: "green" }}>
-                  ${product.data.priceAfterDiscount.toFixed(2)}
+                <span style={{ fontWeight: "bold", color: "#6366f1" }}>
+                  ${product.data.priceAfterDiscount.toFixed(2)}&#x20AA;
                 </span>
-                <span style={{ marginLeft: "10px" }}>
+                <span style={{ display: "inline-block", marginLeft: "10px" }}>
                   (
                   {(
                     (1 - product.data.priceAfterDiscount / product.data.price) *
@@ -110,7 +111,13 @@ const SingleProduct = () => {
                 </span>
               </>
             ) : (
-              <span style={{ fontWeight: "bold" }}>
+              <span
+                style={{
+                  fontWeight: "bold",
+                  display: "inline-block",
+                  marginRight: "10px",
+                }}
+              >
                 ${product.data.price.toFixed(2)}
               </span>
             )}
@@ -122,7 +129,7 @@ const SingleProduct = () => {
             <>
               <div className="quantity-container">
                 <label>
-                  Quantity:
+                  الكميّة:
                   <input
                     type="number"
                     value={quantity}

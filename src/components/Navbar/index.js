@@ -15,7 +15,7 @@ import {
 } from "./style";
 import { BiCartAlt } from "react-icons/bi";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TbMenu } from "react-icons/tb";
 import { FiX } from "react-icons/fi";
@@ -32,7 +32,7 @@ const Logo = styled(Link)`
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const cartItems = useSelector((state) => state.cart);
-
+  const navigate = useNavigate();
   const [clicked, setClicked] = useState(false);
 
   return (
@@ -81,7 +81,7 @@ const Navbar = () => {
                   height: "20px",
                   width: "20px",
                   borderRadius: "50%",
-                  backgroundColor: "Green",
+                  backgroundColor: "#6366f1",
                   display: "grid",
                   placeItems: "center",
                 }}
@@ -97,6 +97,7 @@ const Navbar = () => {
             localStorage.removeItem("token");
             localStorage.removeItem("cart");
             window.location.reload();
+            navigate(PATHS.LOGIN);
           }}
         >
           تسجيل الخروج

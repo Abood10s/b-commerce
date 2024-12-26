@@ -11,6 +11,7 @@ const ProductGrid = styled.div`
 const ProductCard = styled.div`
   border-radius: 12px;
   background-color: #fff;
+  width: 33%;
   max-width: 320px;
   margin: 1rem auto;
   padding: 1rem;
@@ -57,6 +58,8 @@ const ProductCard = styled.div`
 
   .prod-img {
     object-fit: contain;
+    max-width: 250px;
+    max-height: 200px;
   }
 
   .details-link {
@@ -126,7 +129,11 @@ const ProductList = ({ products, isLoading }) => {
           ))
         : products.map((product) => (
             <ProductCard key={product.id}>
-              <img src={product.img} alt={product.name} className="prod-img" />
+              <img
+                src={`${process.env.REACT_APP_API_MAIN_IMAGE_URL}/${product.image}`}
+                alt={product.name}
+                className="prod-img"
+              />
               <h3>{product.name}</h3>
               <p>{product.description}</p>
               <p>
@@ -140,10 +147,10 @@ const ProductList = ({ products, isLoading }) => {
                         marginRight: "10px",
                       }}
                     >
-                      ${product.price.toFixed(2)}
+                      {product.price.toFixed(2)}&#x20AA;
                     </span>
-                    <span style={{ fontWeight: "bold", color: "green" }}>
-                      ${product.priceAfterDiscount.toFixed(2)}&#x20AA;
+                    <span style={{ fontWeight: "bold", color: "#6366f1" }}>
+                      {product.priceAfterDiscount.toFixed(2)}&#x20AA;
                     </span>
                     <span
                       style={{
@@ -162,8 +169,8 @@ const ProductList = ({ products, isLoading }) => {
                     </span>
                   </>
                 ) : (
-                  <span style={{ fontWeight: "bold" }}>
-                    ${product.price.toFixed(2)}
+                  <span style={{ fontWeight: "bold", color: "#6366f1" }}>
+                    {product.price.toFixed(2)}&#x20AA;
                   </span>
                 )}
               </p>

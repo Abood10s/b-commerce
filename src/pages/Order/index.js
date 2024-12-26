@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetOrdersQuery } from "../../features/api/orderApi";
 import "./order.css";
 import Spinner from "../../components/Spinner";
@@ -6,7 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 const Order = () => {
   const { data, error, isLoading } = useGetOrdersQuery();
-  const navigate = useNavigate(); // Use navigate hook
+  const navigate = useNavigate();
+
+  // حالة للتحكم بترتيب العرض (عكس الترتيب)
+  const [isReversed, setIsReversed] = useState(false);
 
   useEffect(() => {
     if (error) {
@@ -21,15 +24,28 @@ const Order = () => {
   if (!data || data.length === 0) {
     return <p className="order-empty">No orders found.</p>;
   }
+
   const handleOrderClick = (id) => {
     navigate(`/orders/${id}`);
   };
 
+  // عكس ترتيب البيانات بناءً على الحالة
+  const displayedOrders = isReversed
+    ? [...(data.data || [])].reverse()
+    : data.data || [];
+
   return (
     <div className="order-container">
       <h2 className="order-title">الطلبات</h2>
+
+      <button
+        className={`order-filter-button ${isReversed ? "active" : ""}`}
+        onClick={() => setIsReversed((prev) => !prev)}
+      >
+        {isReversed ? "عرض الأقدم أولاً" : "عرض الأحدث أولاً"}
+      </button>
       <div className="order-list">
-        {data.data?.map((order) => (
+        {displayedOrders.map((order) => (
           <div
             key={order.id}
             className="order-item"
