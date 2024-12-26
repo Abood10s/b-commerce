@@ -111,10 +111,12 @@ const PhoneNav = ({ show, closeNav }) => {
         <Flex2>
           <LogOut
             onClick={() => {
-              localStorage.removeItem("user");
-              localStorage.removeItem("token");
-              window.location.reload();
-            }}
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            localStorage.removeItem("cart");
+            window.location.reload();
+            navigate(PATHS.LOGIN);
+          }}
             style={{
               textAlign: "center",
               margin: "2rem auto",
