@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { PATHS } from "../../../Routes";
 import { useSelector } from "react-redux";
@@ -73,7 +73,7 @@ const ITEM = styled.div`
 `;
 const PhoneNav = ({ show, closeNav }) => {
   const { user } = useSelector((state) => state.auth);
-
+ const navigate = useNavigate();
   return (
     <Nav show={show ? "true" : undefined}>
       <Container>
