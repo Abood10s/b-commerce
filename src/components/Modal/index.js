@@ -14,7 +14,9 @@ const Modal = ({
     isOpen ? (
       <div className="modal-overlay">
         <div className="modal-content">
-          <h2>Order Form</h2>
+          <div className="order-form-header">
+            <h2>Order</h2>
+          </div>
           <form onSubmit={onSubmit} className="order-form">
             <div>
               <label>
@@ -52,11 +54,9 @@ const Modal = ({
                 />
               </label>
             </div>
-            <div style={{ display: "grid", placeItems: "center" }}>
-              <button type="submit" style={{ marginBottom: "1rem" }}>
-                Submit Order
-              </button>
-              <button type="button" onClick={onClose}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <button type="submit">Submit Order</button>
+              <button type="button" className="cancel-btn" onClick={onClose}>
                 Cancel Order
               </button>
             </div>

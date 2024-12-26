@@ -34,6 +34,7 @@ const Cart = () => {
     const products = cart.map((item) => ({
       productId: item.id,
       quantity: item.quantity,
+      price: item.price,
     }));
 
     const orderData = {
@@ -44,14 +45,14 @@ const Cart = () => {
     };
 
     try {
-      const result = await createOrder(orderData).unwrap(); // Assuming `unwrap()` is properly returning data.
+      const result = await createOrder(orderData).unwrap();
       toast.success("تم إرسال الطلب بنجاح", {
         theme: "colored",
         position: "top-right",
       });
       console.log("Order created successfully:", result);
-      dispatch(clearCart()); // Clear the cart after showing success message.
-      setTimeout(() => setIsModalOpen(false), 3000); // Close modal after 3 seconds.
+      dispatch(clearCart());
+      setTimeout(() => setIsModalOpen(false), 3000);
     } catch (error) {
       console.error("Error creating order:", error);
       toast.error("Failed to place order. Please try again.");
@@ -65,16 +66,20 @@ const Cart = () => {
   const handleInputChange = (e) => {
     setOrderFormData({ ...orderFormData, [e.target.name]: e.target.value });
   };
+  const handleUpdateQuantity = (productId, quantity) => {
+    if (quantity < 1) return;
+    dispatch(
+      updateCartItem({
+        productId,
+        quantity,
+        price: cart.find((item) => item.id === productId)?.price || 0,
+      })
+    );
+  };
 
   const handleRemoveItem = (productId) => {
     dispatch(removeFromCart(productId));
     toast.success("Item removed from cart.");
-  };
-
-  const handleQuantityChange = (productId, newQuantity) => {
-    dispatch(
-      updateCartItem({ productId, quantity: parseInt(newQuantity, 10) })
-    );
   };
 
   if (cart.length === 0) {
@@ -104,10 +109,10 @@ const Cart = () => {
       <div>
         {cart.map((item) => (
           <CartItem
-            item={item}
             key={item.id}
+            item={item}
             handleRemoveItem={handleRemoveItem}
-            handleQuantityChange={handleQuantityChange}
+            handleUpdateQuantity={handleUpdateQuantity}
           />
         ))}
       </div>

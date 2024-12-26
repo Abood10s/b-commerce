@@ -91,7 +91,7 @@ const SubCategory = () => {
           setEditingSubcategoryId(null);
         }
       } catch (error) {
-        console.error("خطأ في تعديل الفئة الفرعية:", error);
+        console.error("خطأ في تعديل الفئة الفرعية", error);
         toast.error("خطأ طرأ أثناء تعديل الفئة الفرعية.");
       }
     }
@@ -139,7 +139,7 @@ const SubCategory = () => {
             <p className="loading-text">يتم تحميل الفئات...</p>
           ) : categoriesError ? (
             <p className="error-text">
-              خطأ في تحميل الفئات: {categoriesError.message}
+              خطأ في تحميل الفئات {categoriesError.message}
             </p>
           ) : (
             <select
@@ -174,7 +174,7 @@ const SubCategory = () => {
       {categoriesLoading ? (
         <p>يتم تحميل الفئات...</p>
       ) : categoriesError ? (
-        <p>خطأ في جلب البيانات: {categoriesError.message}</p>
+        <p>خطأ في جلب البيانات {categoriesError.message}</p>
       ) : (
         <div className="category-list">
           {categoryList.map((category) => (
@@ -190,9 +190,7 @@ const SubCategory = () => {
                   {subCategoriesLoading ? (
                     <p>يتم تحميل الفئات الفرعية...</p>
                   ) : subCategoriesError ? (
-                    <p>
-                      خطأ في جلب الفئات الفرعية: {subCategoriesError.message}
-                    </p>
+                    <p>خطأ في جلب الفئات الفرعية{subCategoriesError.message}</p>
                   ) : (
                     <ul>
                       {subCategoryData?.data?.length === 0 ? (

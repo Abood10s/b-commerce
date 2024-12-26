@@ -9,7 +9,6 @@ import {
   useGetAllCategoriesQuery,
   useGetSubCategoriesByCategoryQuery,
 } from "../../features/api/subCategoryApi";
-
 import Spinner from "../../components/Spinner";
 import CategoryFilter from "../../components/CategoryFilter";
 
@@ -22,22 +21,38 @@ const HomePage = () => {
   const { data: allProducts, isLoading: allProductsAreLoading } =
     useGetProductsQuery({ page: 1 });
 
-  const { data: ProductsByCategory } = useGetProductsByCategoryQuery(
-    selectedCategoryId,
-    { skip: !selectedCategoryId }
-  );
+  const {
+    data: ProductsByCategory,
+    isLoading: categoryLoading,
+    isFetching: isCategoryFetching,
+  } = useGetProductsByCategoryQuery(selectedCategoryId, {
+    skip: !selectedCategoryId,
+  });
+
   const { data: subCategories } = useGetSubCategoriesByCategoryQuery(
     selectedCategoryId,
     { skip: !selectedCategoryId }
   );
-  const { data: ProductsBySubcategory } = useGetProductsBySubcategoryQuery(
-    selectedSubcategoryId,
-    { skip: !selectedSubcategoryId }
-  );
+
+  const {
+    data: ProductsBySubcategory,
+    isLoading: subCategoryLoading,
+    isFetching: isSubcategoryFetching,
+  } = useGetProductsBySubcategoryQuery(selectedSubcategoryId, {
+    skip: !selectedSubcategoryId,
+  });
+
+  const isLoading =
+    categoriesAreLoading ||
+    allProductsAreLoading ||
+    categoryLoading ||
+    subCategoryLoading ||
+    isCategoryFetching ||
+    isSubcategoryFetching;
 
   const handleCategoryClick = (categoryId) => {
     setSelectedCategoryId(categoryId);
-    setSelectedSubcategoryId(null); // Reset subcategory
+    setSelectedSubcategoryId(null);
   };
 
   const handleSubcategoryClick = (subcategoryId) => {
@@ -51,10 +66,6 @@ const HomePage = () => {
       ? ProductsByCategory.data
       : allProducts?.data?.products || [];
 
-  if (categoriesAreLoading || allProductsAreLoading) {
-    return <Spinner />;
-  }
-
   return (
     <div>
       <div className="container">
@@ -66,7 +77,11 @@ const HomePage = () => {
           selectedSubcategoryId={selectedSubcategoryId}
           handleSubcategoryClick={handleSubcategoryClick}
         />
-        <ProductLister products={productsToDisplay} />
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <ProductLister products={productsToDisplay} />
+        )}
       </div>
     </div>
   );

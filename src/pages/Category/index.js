@@ -109,52 +109,50 @@ const Category = () => {
       {categories.length === 0 && !categoriesLoading && <p>لا يوجد فئات.</p>}
 
       <ul className="category-list">
-        {categories && categories.length > 0 ? (
-          categories.map((category) => (
-            <li key={category.id} className="category-item">
-              {editingCategoryId === category.id ? (
-                <div className="edit-form">
-                  <input
-                    type="text"
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                    className="edit-input"
-                  />
-                  <button
-                    onClick={handleSaveEdit}
-                    disabled={isUpdating}
-                    className="btn-save"
-                  >
-                    {isUpdating ? "يتم الحفظ..." : "حفظ"}
-                  </button>
-                  <button onClick={handleCancelEdit} className="btn-cancel">
-                    الغاء
-                  </button>
-                </div>
-              ) : (
-                <div className="category-item-content">
-                  <span className="category-name">{category.name}</span>
-                  <div className="category-actions">
+        {categories && categories.length > 0
+          ? categories.map((category) => (
+              <li key={category.id} className="category-item">
+                {editingCategoryId === category.id ? (
+                  <div className="edit-form">
+                    <input
+                      type="text"
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      className="edit-input"
+                    />
                     <button
-                      onClick={() => handleEdit(category)}
-                      className="btn-edit"
+                      onClick={handleSaveEdit}
+                      disabled={isUpdating}
+                      className="btn-save"
                     >
-                      تعديل
+                      {isUpdating ? "يتم الحفظ..." : "حفظ"}
                     </button>
-                    <button
-                      onClick={() => handleDelete(category.id)}
-                      className="btn-delete"
-                    >
-                      حذف
+                    <button onClick={handleCancelEdit} className="btn-cancel">
+                      الغاء
                     </button>
                   </div>
-                </div>
-              )}
-            </li>
-          ))
-        ) : (
-          <p>لا يتوفر فئات .</p>
-        )}
+                ) : (
+                  <div className="category-item-content">
+                    <span className="category-name">{category.name}</span>
+                    <div className="category-actions">
+                      <button
+                        onClick={() => handleEdit(category)}
+                        className="btn-edit"
+                      >
+                        تعديل
+                      </button>
+                      <button
+                        onClick={() => handleDelete(category.id)}
+                        className="btn-delete"
+                      >
+                        حذف
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </li>
+            ))
+          : null}
       </ul>
 
       <ToastContainer />

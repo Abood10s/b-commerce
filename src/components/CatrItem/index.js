@@ -1,8 +1,15 @@
 import React from "react";
 import "./style.css";
+import { useDispatch } from "react-redux";
+import { updateCartItem } from "../../features/slices/cartSlice";
+const CartItem = ({ item, handleRemoveItem }) => {
+  const { name, description, image } = item;
+  const dispatch = useDispatch();
 
-const CartItem = ({ item, handleRemoveItem, handleQuantityChange }) => {
-  const { name, description, quantity, totalPrice, image } = item;
+  const handleQuantityChange = (productId, quantity) => {
+    if (quantity < 1) return;
+    dispatch(updateCartItem({ productId, quantity, price: item.price }));
+  };
 
   return (
     <div className="cart-item">
@@ -20,15 +27,21 @@ const CartItem = ({ item, handleRemoveItem, handleQuantityChange }) => {
             الكميّة:{" "}
             <input
               type="number"
-              value={quantity}
-              onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+              value={item.quantity}
+              onChange={(e) =>
+                handleQuantityChange(
+                  item.id,
+                  parseInt(e.target.value),
+                  item.maxQuantity
+                )
+              }
               min="1"
+              max={item.maxQuantity}
             />
           </div>
           <div className="item-price">
-            الإجمالي: {` ${totalPrice.toFixed(2)} شيكل`}
+            الإجمالي: {`${(item.quantity * item.price).toFixed(2)} شيكل`}
           </div>
-          <div className="remove-btn"></div>
         </div>
         <button
           onClick={() => handleRemoveItem(item.id)}

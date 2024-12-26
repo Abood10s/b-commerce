@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useGetProductDetailsQuery } from "../../features/api/productsApi";
 import { useDispatch } from "react-redux";
@@ -12,28 +12,47 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
 
   const [quantity, setQuantity] = useState(1);
+  const [maxQuantity, setMaxQuantity] = useState(1); // Initialize max quantity
 
   const { data: product, isLoading, isError } = useGetProductDetailsQuery(id);
+
+  useEffect(() => {
+    if (product) {
+      const availableStock = product.data.quantity;
+      setMaxQuantity(availableStock);
+
+      setQuantity(Math.min(quantity, availableStock));
+    }
+  }, [product, quantity]);
 
   if (isLoading) return <p>يتم التحميل...</p>;
   if (isError || !product) return <p>المنتج غير موجود.</p>;
 
   const handleQuantityChange = (e) => {
-    const value = Math.max(1, parseInt(e.target.value) || 1);
-    setQuantity(value);
+    let value = parseInt(e.target.value) || 1;
+
+    if (value > maxQuantity) {
+      toast.error(`الكمية المتاحة هي ${maxQuantity}`);
+      value = maxQuantity;
+    }
+
+    setQuantity(Math.max(1, value));
   };
 
   const handleAddToCart = () => {
+    const validQuantity = Math.min(quantity, maxQuantity);
+
     const cartItem = {
       id: product.data.id,
       name: product.data.name,
       price: product.data.priceAfterDiscount || product.data.price,
       image: product.data.image,
       description: product.data.description,
-      quantity,
+      quantity: validQuantity,
       totalPrice:
-        quantity * (product.data.priceAfterDiscount || product.data.price),
+        validQuantity * (product.data.priceAfterDiscount || product.data.price),
     };
+
     dispatch(addToCart(cartItem));
     toast("تمت إضافة المنتج إلى السلّة!");
   };
@@ -97,29 +116,31 @@ const SingleProduct = () => {
             )}
           </p>
 
-          {product.quantity === 0 ? (
-            <p>نفدت الكمية</p>
+          {product.data.quantity === 0 ? (
+            <p style={{ fontSize: "1.5rem" }}>نفذت الكمية</p>
           ) : (
-            <div className="quantity-container">
-              <label>
-                Quantity:
-                <input
-                  type="number"
-                  value={quantity}
-                  onChange={handleQuantityChange}
-                  min="1"
-                  style={{ marginLeft: "10px", width: "60px" }}
-                />
-              </label>
-            </div>
+            <>
+              <div className="quantity-container">
+                <label>
+                  Quantity:
+                  <input
+                    type="number"
+                    value={quantity}
+                    onChange={handleQuantityChange}
+                    min="1"
+                    max={Number(maxQuantity)}
+                    style={{ marginLeft: "10px", width: "60px" }}
+                  />
+                </label>
+              </div>
+              <div className="actions">
+                <button onClick={handleAddToCart} className="add-to-cart-btn">
+                  أضف إلى السلّة
+                </button>
+              </div>
+            </>
           )}
         </div>
-      </div>
-
-      <div className="actions">
-        <button onClick={handleAddToCart} className="add-to-cart-btn ">
-          أضف إلى السلّة
-        </button>
       </div>
 
       <ToastContainer />

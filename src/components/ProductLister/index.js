@@ -1,17 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
 const ProductGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1rem;
   padding: 1rem;
 `;
+
 const ProductCard = styled.div`
-  border: 1px solid #e0e0e0;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   max-width: 320px;
   margin: 1rem auto;
@@ -20,10 +18,13 @@ const ProductCard = styled.div`
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  gap: 0.4rem;
   position: relative;
+  text-align: right;
+
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   }
 
   img {
@@ -38,7 +39,6 @@ const ProductCard = styled.div`
     font-weight: bold;
     color: #333;
     margin: 0.5rem 0;
-    text-align: center;
   }
 
   p {
@@ -46,14 +46,12 @@ const ProductCard = styled.div`
     color: #666;
     font-size: 0.875rem;
     line-height: 1.4;
-    text-align: center;
   }
 
   .price {
     font-size: 1rem;
     color: #000;
     font-weight: bold;
-    text-align: center;
     margin: 0.25rem 0;
   }
 
@@ -79,75 +77,101 @@ const ProductCard = styled.div`
     &:hover {
       background-color: #fff;
       color: #123;
-      border: 2px solid #123;
+      outline: 2px solid #123;
+    }
+  }
+
+  &.loading img,
+  &.loading h3,
+  &.loading p {
+    background-color: var(--loading-grey);
+    background: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 60%
+    );
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: loading 1s ease-in-out infinite;
+    color: transparent;
+  }
+
+  @keyframes loading {
+    to {
+      background-position-x: -20%;
     }
   }
 `;
-
-const ProductList = ({ products }) => {
-  if (!products || products.length === 0) {
+const ProductList = ({ products, isLoading }) => {
+  if (!isLoading && (!products || products.length === 0)) {
     return (
-      <p style={{ textAlign: "center", margin: "1rem auto" }}>
+      <p style={{ textAlign: "center", margin: "3rem auto" }}>
         ليس هناك منتجات.
       </p>
     );
   }
 
+  const skeletonArray = Array.from({ length: 8 });
+
   return (
     <ProductGrid>
-      {products.map((product) => (
-        <ProductCard key={product.id}>
-          <img
-            src={`${process.env.REACT_APP_API_MAIN_IMAGE_URL}${product?.image}`}
-            alt={product.name}
-            className="prod-img"
-          />
-          <h3>{product.name}</h3>
-          <p>{product.description}</p>
-          <p>
-            {product.priceAfterDiscount &&
-            product.priceAfterDiscount !== product.price ? (
-              <>
-                <span
-                  style={{
-                    textDecoration: "line-through",
-                    color: "red",
-                    marginRight: "10px",
-                  }}
-                >
-                  ${product.price.toFixed(2)}
-                </span>
-                <span style={{ fontWeight: "bold", color: "green" }}>
-                  ${product.priceAfterDiscount.toFixed(2)}
-                </span>
-                <span
-                  style={{
-                    marginLeft: "10px",
-                    position: "absolute",
-                    top: "1rem",
-                    left: "0.5rem",
-                    backgroundColor: "green",
-                    color: "white",
-                    padding: ".3rem",
-                    borderRadius: "5px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {product.discount}% off
-                </span>
-              </>
-            ) : (
-              <span style={{ fontWeight: "bold" }}>
-                ${product.price.toFixed(2)}
-              </span>
-            )}
-          </p>
-
-          <Link to={`/products/${product.id}`} className="details-link">
-            عرض التفاصيل
-          </Link>
-        </ProductCard>
-      ))}
+      {isLoading
+        ? skeletonArray.map((_, index) => (
+            <ProductCard key={index} className="loading">
+              <div className="prod-img" />
+              <h3>'</h3>
+              <p></p>
+            </ProductCard>
+          ))
+        : products.map((product) => (
+            <ProductCard key={product.id}>
+              <img src={product.img} alt={product.name} className="prod-img" />
+              <h3>{product.name}</h3>
+              <p>{product.description}</p>
+              <p>
+                {product.priceAfterDiscount &&
+                product.priceAfterDiscount !== product.price ? (
+                  <>
+                    <span
+                      style={{
+                        textDecoration: "line-through",
+                        color: "red",
+                        marginRight: "10px",
+                      }}
+                    >
+                      ${product.price.toFixed(2)}
+                    </span>
+                    <span style={{ fontWeight: "bold", color: "green" }}>
+                      ${product.priceAfterDiscount.toFixed(2)}&#x20AA;
+                    </span>
+                    <span
+                      style={{
+                        marginLeft: "10px",
+                        position: "absolute",
+                        top: "1rem",
+                        left: "0.5rem",
+                        backgroundColor: "green",
+                        color: "white",
+                        padding: ".3rem",
+                        borderRadius: "5px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {product.discount}% off
+                    </span>
+                  </>
+                ) : (
+                  <span style={{ fontWeight: "bold" }}>
+                    ${product.price.toFixed(2)}
+                  </span>
+                )}
+              </p>
+              <Link to={`/products/${product.id}`} className="details-link">
+                عرض التفاصيل
+              </Link>
+            </ProductCard>
+          ))}
     </ProductGrid>
   );
 };

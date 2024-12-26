@@ -5,7 +5,7 @@ const phoneRegex = /^(059|056)\d{7}$/;
 
 export const loginSchema = yup.object().shape({
   email: yup.string().email().required("يجب أن تدخل بريدك الالكتروني"),
-  password: yup.string().min(6).required("يجب إدخال كلمة المرور"),
+  password: yup.string().required("يجب إدخال كلمة المرور"),
 });
 
 export const SignupSchema = yup.object().shape({

@@ -26,11 +26,14 @@ const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state));
     },
     updateCartItem: (state, action) => {
-      const { productId, quantity } = action.payload;
+      const { productId, quantity, price } = action.payload;
       const existingItem = state.find((item) => item.id === productId);
+
       if (existingItem) {
-        existingItem.quantity = quantity;
-        existingItem.totalPrice = existingItem.price * quantity;
+        if (quantity > 0 && price > 0) {
+          existingItem.quantity = quantity;
+          existingItem.totalPrice = quantity * price;
+        }
         localStorage.setItem("cart", JSON.stringify(state));
       }
     },
