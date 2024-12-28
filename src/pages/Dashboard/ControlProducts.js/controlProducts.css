@@ -59,13 +59,15 @@
         display: block;
         overflow-x: auto;
         width: 95%;
+        display: grid;
+        place-items: center;
     }
     .products-table thead {
         display: none;
     }
     .products-table tr {
         display: block;
-        margin-bottom: 10px;
+        margin: 10px auto;
         border: 1px solid #ddd;
     }
     .products-table td {
@@ -223,6 +225,9 @@
     .modal-content button {
         font-size: 0.9rem;
         padding: 8px 10px;
+    }
+    .controlling-products-container {
+        box-shadow: 0 0 0;
     }
 }
 

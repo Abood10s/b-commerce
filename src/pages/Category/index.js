@@ -101,10 +101,10 @@ const Category = () => {
       {isSuccess && <p className="message success">تمت إضافة الفئة بنجاح!</p>}
       {error && <p className="message error">خطأ: {error.message}</p>}
 
-      <h3>Categories</h3>
+      <h3>الفئات</h3>
 
       {categoriesLoading && <p>يتم تحميل الفئات...</p>}
-      {categoriesError && <p>خطأ في تحميل الفئات: {categoriesError.message}</p>}
+      {categoriesError && <p>خطأ في تحميل الفئات {categoriesError.message}</p>}
 
       {categories.length === 0 && !categoriesLoading && <p>لا يوجد فئات.</p>}
 

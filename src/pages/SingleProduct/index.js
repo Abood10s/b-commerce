@@ -43,15 +43,20 @@ const SingleProduct = () => {
   const handleAddToCart = () => {
     const validQuantity = Math.min(quantity, maxQuantity);
 
+    const productPrice =
+      product.data.priceAfterDiscount !== null &&
+      product.data.priceAfterDiscount < product.data.price
+        ? product.data.priceAfterDiscount
+        : product.data.price;
+
     const cartItem = {
       id: product.data.id,
       name: product.data.name,
-      price: product.data.priceAfterDiscount || product.data.price,
+      price: productPrice,
       image: product.data.image,
       description: product.data.description,
       quantity: validQuantity,
-      totalPrice:
-        validQuantity * (product.data.priceAfterDiscount || product.data.price),
+      totalPrice: validQuantity * productPrice,
     };
 
     dispatch(addToCart(cartItem));
@@ -101,13 +106,19 @@ const SingleProduct = () => {
                 <span style={{ fontWeight: "bold", color: "#6366f1" }}>
                   ${product.data.priceAfterDiscount.toFixed(2)}&#x20AA;
                 </span>
-                <span style={{ display: "inline-block", marginLeft: "10px" }}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    marginLeft: "10px",
+                    color: "#619303",
+                  }}
+                >
                   (
                   {(
                     (1 - product.data.priceAfterDiscount / product.data.price) *
                     100
                   ).toFixed(0)}
-                  % off)
+                  % خصم)
                 </span>
               </>
             ) : (

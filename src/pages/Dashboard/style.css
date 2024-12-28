@@ -35,10 +35,9 @@
     padding: 1rem;
     width: 250px;
     height: 150px;
-    border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    outline: 3px solid rgb(13, 170, 13);
-    background-color: rgba(105, 250, 202, 0.132);
+    border-right: 5px solid rgb(13, 170, 13);
+    background-color: rgba(50, 234, 173, 0.132);
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -47,7 +46,12 @@
     text-align: center;
     color: #333;
     text-decoration: none;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: all 0.2s ease;
+}
+
+.dashboard-tile:hover {
+    border-bottom: 0;
+    outline: 2px solid rgb(13, 170, 13);
 }
 
 

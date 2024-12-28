@@ -8,7 +8,6 @@ const Order = () => {
   const { data, error, isLoading } = useGetOrdersQuery();
   const navigate = useNavigate();
 
-  // حالة للتحكم بترتيب العرض (عكس الترتيب)
   const [isReversed, setIsReversed] = useState(false);
 
   useEffect(() => {
@@ -22,14 +21,17 @@ const Order = () => {
   }
 
   if (!data || data.length === 0) {
-    return <p className="order-empty">No orders found.</p>;
+    return (
+      <p className="order-empty" style={{ margin: "2rem auto" }}>
+        خطأ في عرض الطلبات
+      </p>
+    );
   }
 
   const handleOrderClick = (id) => {
     navigate(`/orders/${id}`);
   };
 
-  // عكس ترتيب البيانات بناءً على الحالة
   const displayedOrders = isReversed
     ? [...(data.data || [])].reverse()
     : data.data || [];
@@ -37,13 +39,14 @@ const Order = () => {
   return (
     <div className="order-container">
       <h2 className="order-title">الطلبات</h2>
-
-      <button
-        className={`order-filter-button ${isReversed ? "active" : ""}`}
-        onClick={() => setIsReversed((prev) => !prev)}
-      >
-        {isReversed ? "عرض الأقدم أولاً" : "عرض الأحدث أولاً"}
-      </button>
+      <div className="rev-btn-cont">
+        <button
+          className={`order-filter-button ${isReversed ? "active" : ""}`}
+          onClick={() => setIsReversed((prev) => !prev)}
+        >
+          {isReversed ? "عرض الأقدم أولاً" : "عرض الأحدث أولاً"}
+        </button>
+      </div>
       <div className="order-list">
         {displayedOrders.map((order) => (
           <div

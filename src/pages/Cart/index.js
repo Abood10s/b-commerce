@@ -10,6 +10,7 @@ import Modal from "../../components/Modal";
 import { useCreateOrderMutation } from "../../features/api/orderApi";
 import { toast, ToastContainer } from "react-toastify";
 import CartItem from "../../components/CatrItem";
+import EmptyCart from "../../assets/empty-cart.png";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -34,7 +35,10 @@ const Cart = () => {
     const products = cart.map((item) => ({
       productId: item.id,
       quantity: item.quantity,
-      price: item.price,
+      price:
+        item.priceAfterDiscount !== null && item.priceAfterDiscount < item.price
+          ? item.priceAfterDiscount
+          : item.price,
     }));
 
     const orderData = {
@@ -84,9 +88,13 @@ const Cart = () => {
 
   if (cart.length === 0) {
     return (
-      <p className="cart-empty-message" style={{ marginTop: "1rem" }}>
-        السلّة فارغة
-      </p>
+      <div className="empty-cart-container">
+        <img src={EmptyCart} alt="السلّة فارغة" />
+        <span className="empty-cart-message">السلّة فارغة</span>
+        <p className="cart-empty-description">
+          أضف بعض المنتجات إلى السلّة للبدء.
+        </p>
+      </div>
     );
   }
 
@@ -101,7 +109,11 @@ const Cart = () => {
           <span>المجموع:</span>
           <span className="cart-header-total">
             {` ${cart
-              .reduce((acc, item) => acc + item.price * item.quantity, 0)
+              .reduce(
+                (acc, item) =>
+                  acc + (item.priceAfterDiscount || item.price) * item.quantity,
+                0
+              )
               .toFixed(2)} شيكل`}
           </span>
         </div>

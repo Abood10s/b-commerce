@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
+import styled, { StyleSheetManager } from "styled-components";
 import { PATHS } from "../../../Routes";
 import { useSelector } from "react-redux";
+import { Username } from "../style";
 
 const Nav = styled.div`
   border-top: 3px solid green;
@@ -73,61 +74,60 @@ const ITEM = styled.div`
 `;
 const PhoneNav = ({ show, closeNav }) => {
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   return (
-    <Nav show={show ? "true" : undefined}>
-      <Container>
-        <Flex1>
-          <ITEM>
-            <Link
-              to={PATHS.HOME}
-              onClick={closeNav}
-              style={{ textDecoration: "none", fontWeight: "450" }}
-            >
-              <NavMobItem>الرئيسية</NavMobItem>
-            </Link>
-          </ITEM>
-          <ITEM>
-            <Link
-              to={PATHS.CART}
-              onClick={closeNav}
-              style={{ textDecoration: "none", fontWeight: "450" }}
-            >
-              <NavMobItem>
-                {user?.userTypeName === "Admin" && (
+    <StyleSheetManager shouldForwardProp={(prop) => prop !== "show"}>
+      <Nav show={show ? "true" : undefined}>
+        <Container>
+          <Flex1>
+            <ITEM>
+              <Link
+                to={PATHS.HOME}
+                onClick={closeNav}
+                style={{ textDecoration: "none", fontWeight: "450" }}
+              >
+                <NavMobItem>الرئيسية</NavMobItem>
+              </Link>
+            </ITEM>
+            {user?.userTypeName === "Admin" ? (
+              <ITEM>
+                <NavMobItem>
                   <Link
                     to={PATHS.DASHBOARD}
-                    style={{ textDecoration: "none", fontWeight: "bold" }}
+                    onClick={closeNav}
+                    style={{ textDecoration: "none", fontWeight: "450" }}
                   >
                     لوحة التحكم
                   </Link>
-                )}
-                {/* <BiCartAlt style={{ fontSize: "1.55rem", cursor: "pointer" }} /> */}
-              </NavMobItem>
-            </Link>
-          </ITEM>
-        </Flex1>
-        <Line />
-        <Flex2>
-          <LogOut
-            onClick={() => {
-              localStorage.removeItem("user");
-              localStorage.removeItem("token");
-              window.location.reload();
-            }}
-            style={{
-              textAlign: "center",
-              margin: "2rem auto",
-              padding: "0.5rem 1rem",
-              borderRadius: "5px",
-              border: "1px solid red",
-            }}
-          >
-            تسجيل الخروج
-          </LogOut>
-        </Flex2>
-      </Container>
-    </Nav>
+                </NavMobItem>
+              </ITEM>
+            ) : null}
+          </Flex1>
+          <Line />
+          <Flex2>
+            <LogOut
+              onClick={() => {
+                localStorage.removeItem("user");
+                localStorage.removeItem("token");
+                localStorage.removeItem("cart");
+                window.location.reload();
+                navigate(PATHS.LOGIN);
+              }}
+              style={{
+                textAlign: "center",
+                margin: "2rem auto",
+                padding: "0.5rem 1rem",
+                borderRadius: "5px",
+                border: "1px solid red",
+              }}
+            >
+              تسجيل الخروج
+            </LogOut>
+          </Flex2>
+        </Container>
+      </Nav>
+    </StyleSheetManager>
   );
 };
 

@@ -6,6 +6,7 @@ import { PiFolder } from "react-icons/pi";
 import { PiClipboardTextLight } from "react-icons/pi";
 
 import "./style.css";
+
 const Dashboard = () => {
   return (
     <div className="dashboard-container">

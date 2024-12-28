@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+
 const ProductGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -11,7 +12,7 @@ const ProductGrid = styled.div`
 const ProductCard = styled.div`
   border-radius: 12px;
   background-color: #fff;
-  width: 33%;
+  width: 35%;
   max-width: 320px;
   margin: 1rem auto;
   padding: 1rem;
@@ -28,38 +29,32 @@ const ProductCard = styled.div`
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   }
 
-  img {
+  img,
+  .prod-img {
     width: 100%;
     height: 150px;
     object-fit: cover;
     border-radius: 8px 8px 0 0;
+    background-color: #f2f2f2;
   }
 
-  h3 {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #333;
-    margin: 0.5rem 0;
-  }
-
+  h3,
   p {
-    margin: 0.25rem 0;
+    margin: 0.5rem 0;
     color: #666;
     font-size: 0.875rem;
     line-height: 1.4;
+  }
+
+  h3 {
+    font-weight: bold;
+    color: #333;
   }
 
   .price {
     font-size: 1rem;
     color: #000;
     font-weight: bold;
-    margin: 0.25rem 0;
-  }
-
-  .prod-img {
-    object-fit: contain;
-    max-width: 250px;
-    max-height: 200px;
   }
 
   .details-link {
@@ -85,9 +80,10 @@ const ProductCard = styled.div`
   }
 
   &.loading img,
+  &.loading .prod-img,
   &.loading h3,
   &.loading p {
-    background-color: var(--loading-grey);
+    background-color: #e0e0e0;
     background: linear-gradient(
       100deg,
       rgba(255, 255, 255, 0) 40%,
@@ -105,16 +101,27 @@ const ProductCard = styled.div`
       background-position-x: -20%;
     }
   }
-`;
-const ProductList = ({ products, isLoading }) => {
-  if (!isLoading && (!products || products.length === 0)) {
-    return (
-      <p style={{ textAlign: "center", margin: "3rem auto" }}>
-        ليس هناك منتجات.
-      </p>
-    );
+
+  @media (max-width: 1150px) {
+    width: 65%;
   }
 
+  @media (max-width: 480px) {
+    width: 90%;
+    padding: 0.8rem;
+    h3 {
+      font-size: 0.9rem;
+    }
+    p {
+      font-size: 0.8rem;
+    }
+    .details-link {
+      font-size: 0.8rem;
+    }
+  }
+`;
+
+const ProductList = ({ products, isLoading }) => {
   const skeletonArray = Array.from({ length: 8 });
 
   return (
@@ -123,8 +130,8 @@ const ProductList = ({ products, isLoading }) => {
         ? skeletonArray.map((_, index) => (
             <ProductCard key={index} className="loading">
               <div className="prod-img" />
-              <h3>'</h3>
-              <p></p>
+              <h3>Loading...</h3>
+              <p>Loading description...</p>
             </ProductCard>
           ))
         : products.map((product) => (
@@ -136,7 +143,7 @@ const ProductList = ({ products, isLoading }) => {
               />
               <h3>{product.name}</h3>
               <p>{product.description}</p>
-              <p>
+              <p className="price">
                 {product.priceAfterDiscount &&
                 product.priceAfterDiscount !== product.price ? (
                   <>
@@ -157,15 +164,14 @@ const ProductList = ({ products, isLoading }) => {
                         marginLeft: "10px",
                         position: "absolute",
                         top: "1rem",
-                        left: "0.5rem",
-                        backgroundColor: "green",
-                        color: "white",
+                        left: "0",
+                        backgroundColor: "#DAF7A6",
+                        color: "#333",
                         padding: ".3rem",
                         borderRadius: "5px",
-                        fontWeight: "bold",
                       }}
                     >
-                      {product.discount}% off
+                      خصم {product.discount}%
                     </span>
                   </>
                 ) : (

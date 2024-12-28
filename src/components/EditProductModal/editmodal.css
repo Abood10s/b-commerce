@@ -70,6 +70,7 @@
 
 .edit-product-form .cancel-button {
     background-color: #6c757d;
+    margin-bottom: .5rem;
 }
 
 .edit-product-form .cancel-button:hover {
@@ -79,6 +80,7 @@
 @media (max-width: 768px) {
     .edit-modal-content {
         width: 90%;
-        padding: 1rem .5rem;
+        height: 90vh;
+        padding: 1.5rem .5rem;
     }
 }
