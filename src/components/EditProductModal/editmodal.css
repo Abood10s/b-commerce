@@ -13,11 +13,11 @@
 
 .edit-modal-content {
     background-color: #fff;
-    padding: 20px;
     border-radius: 8px;
-    width: 400px;
+    width: 500px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
+    height: 90%;
+    padding: 1rem;
 }
 
 .edit-modal-content h2 {
@@ -28,7 +28,8 @@
 .edit-product-form {
     display: flex;
     flex-direction: column;
-    height: 80%;
+    height: 90%;
+    overflow-y: auto;
 }
 
 .edit-product-form label {
