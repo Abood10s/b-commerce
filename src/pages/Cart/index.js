@@ -68,19 +68,22 @@ const Cart = () => {
       description: orderFormData.description,
       products,
     };
+
     try {
       const result = await createOrder(orderData);
       if (result.data.isSuccess) {
         toast.success("تم إرسال الطلب بنجاح");
-        dispatch(clearCart());
+
+        setTimeout(() => {
+          dispatch(clearCart());
+          setIsOrderFormVisible(false);
+        }, 1000);
       } else {
-        toast.error("Failed to create order: " + result.error.message);
+        toast.error("فشل في إنشاء الطلب: " + result.error.message);
       }
     } catch (error) {
       console.error("Error creating order:", error);
-      toast.error("Failed to create order, please try again.");
-    } finally {
-      setIsOrderFormVisible(false);
+      toast.error("فشل في إنشاء الطلب، يرجى المحاولة مرة أخرى.");
     }
   };
 
