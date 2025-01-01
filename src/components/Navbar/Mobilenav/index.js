@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled, { StyleSheetManager } from "styled-components";
 import { PATHS } from "../../../Routes";
-import { useSelector } from "react-redux";
-import { Username } from "../style";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../features/slices/authSlice";
 
 const Nav = styled.div`
   border-top: 3px solid green;
@@ -75,6 +75,7 @@ const ITEM = styled.div`
 const PhoneNav = ({ show, closeNav }) => {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <StyleSheetManager shouldForwardProp={(prop) => prop !== "show"}>
@@ -108,10 +109,8 @@ const PhoneNav = ({ show, closeNav }) => {
           <Flex2>
             <LogOut
               onClick={() => {
-                localStorage.removeItem("user");
-                localStorage.removeItem("token");
+                dispatch(logout());
                 localStorage.removeItem("cart");
-                window.location.reload();
                 navigate(PATHS.LOGIN);
               }}
               style={{

@@ -11,6 +11,7 @@ import {
 } from "../../features/api/subCategoryApi";
 import Spinner from "../../components/Spinner";
 import CategoryFilter from "../../components/CategoryFilter";
+import MainBanner from "../../components/MainBanner";
 
 const HomePage = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
@@ -68,7 +69,8 @@ const HomePage = () => {
 
   return (
     <div>
-      <div className="container">
+      <MainBanner />
+      <div className="cats-container">
         <CategoryFilter
           categories={categories?.data || []}
           selectedCategoryId={selectedCategoryId}

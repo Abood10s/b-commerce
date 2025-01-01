@@ -43,20 +43,16 @@ const SingleProduct = () => {
   const handleAddToCart = () => {
     const validQuantity = Math.min(quantity, maxQuantity);
 
-    const productPrice =
-      product.data.priceAfterDiscount !== null &&
-      product.data.priceAfterDiscount < product.data.price
-        ? product.data.priceAfterDiscount
-        : product.data.price;
-
     const cartItem = {
       id: product.data.id,
       name: product.data.name,
-      price: productPrice,
+      price: product.data.price, // Original price
+      priceAfterDiscount: product.data.priceAfterDiscount || product.data.price, // Discounted price
       image: product.data.image,
       description: product.data.description,
       quantity: validQuantity,
-      totalPrice: validQuantity * productPrice,
+      totalPrice:
+        validQuantity * (product.data.priceAfterDiscount || product.data.price),
     };
 
     dispatch(addToCart(cartItem));
@@ -104,7 +100,7 @@ const SingleProduct = () => {
                   {product.data.price.toFixed(2)}&#x20AA;
                 </span>
                 <span style={{ fontWeight: "bold", color: "#6366f1" }}>
-                  ${product.data.priceAfterDiscount.toFixed(2)}&#x20AA;
+                  {product.data.priceAfterDiscount.toFixed(2)}&#x20AA;
                 </span>
                 <span
                   style={{
@@ -129,7 +125,7 @@ const SingleProduct = () => {
                   marginRight: "10px",
                 }}
               >
-                ${product.data.price.toFixed(2)}
+                {product.data.price.toFixed(2)}
               </span>
             )}
           </p>

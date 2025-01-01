@@ -35,10 +35,7 @@ const Cart = () => {
     const products = cart.map((item) => ({
       productId: item.id,
       quantity: item.quantity,
-      price:
-        item.priceAfterDiscount !== null && item.priceAfterDiscount < item.price
-          ? item.priceAfterDiscount
-          : item.price,
+      price: item.priceAfterDiscount || item.price,
     }));
 
     const orderData = {

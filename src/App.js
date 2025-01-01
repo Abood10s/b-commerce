@@ -1,17 +1,24 @@
-import { Suspense } from "react";
-import { useRoutes } from "react-router-dom";
-import { router as routes } from "./Routes";
+import { Suspense, useEffect } from "react";
+import { useNavigate, useRoutes } from "react-router-dom";
+import { PATHS, router as routes } from "./Routes";
 import Navbar from "./components/Navbar";
 import { useSelector } from "react-redux";
 import Spinner from "./components/Spinner";
 
 function App() {
   const router = useRoutes(routes);
-  const { user } = useSelector((state) => state.auth);
+  const { authenticated } = useSelector((state) => state.auth);
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authenticated) {
+      navigate(PATHS.LOGIN);
+    }
+  }, [authenticated, navigate]);
   return (
     <div className="App">
-      {user && <Navbar />}
+      {authenticated && <Navbar />}
       <Suspense fallback=<Spinner />>{router}</Suspense>
     </div>
   );

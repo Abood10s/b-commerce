@@ -125,7 +125,7 @@ const ProductList = ({ products, isLoading }) => {
   const skeletonArray = Array.from({ length: 8 });
 
   return (
-    <ProductGrid>
+    <ProductGrid id="content-start">
       {isLoading
         ? skeletonArray.map((_, index) => (
             <ProductCard key={index} className="loading">
@@ -159,20 +159,23 @@ const ProductList = ({ products, isLoading }) => {
                     <span style={{ fontWeight: "bold", color: "#6366f1" }}>
                       {product.priceAfterDiscount.toFixed(2)}&#x20AA;
                     </span>
-                    <span
+                    <p
                       style={{
                         marginLeft: "10px",
                         position: "absolute",
-                        top: "1rem",
+                        top: ".7rem",
                         left: "0",
                         backgroundColor: "#DAF7A6",
                         color: "#333",
-                        padding: ".3rem",
-                        borderRadius: "5px",
+                        padding: ".2rem .8rem",
+                        borderRadius: "50%",
+                        display: "grid",
+                        placeItems: "center",
                       }}
                     >
-                      خصم {product.discount}%
-                    </span>
+                      خصم
+                      <p style={{ marginTop: "-.2rem" }}>{product.discount}%</p>
+                    </p>
                   </>
                 ) : (
                   <span style={{ fontWeight: "bold", color: "#6366f1" }}>

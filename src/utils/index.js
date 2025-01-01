@@ -42,7 +42,7 @@ export const ENDPOINTS = {
 };
 export const AuthenticatedUserRedirect = () => {
   const authenticated = useSelector((state) => state.auth.authenticated);
-  const location = useLocation(); // Get the current location/path
+  const location = useLocation();
 
   if (authenticated) {
     return <Navigate to={PATHS.HOME} />;
@@ -56,6 +56,7 @@ export const AuthenticatedUserRedirect = () => {
     return <SignupForm />;
   }
 };
+
 export const AdminToken = ({ children }) => {
   const { user } = useSelector((state) => state.auth);
 

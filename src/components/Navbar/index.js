@@ -16,12 +16,13 @@ import {
 import { BiCartAlt } from "react-icons/bi";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TbMenu } from "react-icons/tb";
 import { FiX } from "react-icons/fi";
 import PhoneNav from "./Mobilenav";
 import { Chip } from "../CategoryFilter";
 import styled from "styled-components";
+import { logout } from "../../features/slices/authSlice";
 
 const Logo = styled(Link)`
   text-decoration: none;
@@ -34,6 +35,7 @@ const Navbar = () => {
   const cartItems = useSelector((state) => state.cart);
   const navigate = useNavigate();
   const [clicked, setClicked] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <Nav>
@@ -93,10 +95,8 @@ const Navbar = () => {
         </SVGS>
         <Logout
           onClick={() => {
-            localStorage.removeItem("user");
-            localStorage.removeItem("token");
+            dispatch(logout());
             localStorage.removeItem("cart");
-            window.location.reload();
             navigate(PATHS.LOGIN);
           }}
         >

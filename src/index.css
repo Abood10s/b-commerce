@@ -9,5 +9,35 @@
 }
 
 body {
+    font-family: 'Tajawal', sans-serif;
+    direction: rtl;
+    font-size: 16px;
+    line-height: 1.5;
     overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+}
+
+p {
+    font-family: 'Tajawal', sans-serif;
+}
+
+a {
+    font-family: 'Tajawal', sans-serif;
+    text-decoration: none;
+}
+
+button,
+input,
+textarea,
+span {
+    font-family: 'Tajawal', sans-serif;
 }

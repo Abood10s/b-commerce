@@ -80,5 +80,5 @@ export const router = [
       },
     ],
   },
-  { path: "*", element: <h1>Page Doesn't Exist lil Nigga </h1> },
+  { path: "*", element: <h1>Page Doesn't Exist </h1> },
 ];
