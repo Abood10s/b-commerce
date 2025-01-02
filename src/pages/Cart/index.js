@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearCart,
@@ -6,8 +6,6 @@ import {
   updateCartItem,
 } from "../../features/slices/cartSlice";
 import { useCreateOrderMutation } from "../../features/api/orderApi";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import CartItem from "../../components/CatrItem";
 import EmptyCart from "../../assets/empty-cart.png";
@@ -25,11 +23,21 @@ const Cart = () => {
   });
   const [formErrors, setFormErrors] = useState({});
   const [createOrder] = useCreateOrderMutation();
+  const [notification, setNotification] = useState({ message: "", type: "" });
 
+  const orderFormRef = useRef(null);
+
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification({ message: "", type: "" }), 4000);
+  };
+  useEffect(() => {
+    if (isOrderFormVisible && orderFormRef.current) {
+      orderFormRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isOrderFormVisible]);
   const handleOrderClick = () => {
     setIsOrderFormVisible(true);
-    if (validateForm()) {
-    }
   };
 
   const validateForm = () => {
@@ -72,18 +80,21 @@ const Cart = () => {
     try {
       const result = await createOrder(orderData);
       if (result.data.isSuccess) {
-        toast.success("تم إرسال الطلب بنجاح");
+        showNotification("تم إرسال الطلب بنجاح", "success");
 
         setTimeout(() => {
           dispatch(clearCart());
           setIsOrderFormVisible(false);
-        }, 1000);
+        }, 500);
       } else {
-        toast.error("فشل في إنشاء الطلب: " + result.error.message);
+        showNotification(
+          `فشل في إنشاء الطلب: ${result.error.message}`,
+          "error"
+        );
       }
     } catch (error) {
       console.error("Error creating order:", error);
-      toast.error("فشل في إنشاء الطلب، يرجى المحاولة مرة أخرى.");
+      showNotification("فشل في إنشاء الطلب، يرجى المحاولة مرة أخرى.", "error");
     }
   };
 
@@ -104,7 +115,7 @@ const Cart = () => {
 
   const handleRemoveItem = (productId) => {
     dispatch(removeFromCart(productId));
-    toast.success("تم حذف المنتج من السلة.");
+    showNotification("تم حذف المنتج من السلة.", "success");
   };
 
   const handleCloseForm = () => {
@@ -125,7 +136,6 @@ const Cart = () => {
 
   return (
     <div className="cart-container">
-      {/* <button onClick={() => toast.success("تم إرسال الطلب بنجاح")}>s</button> */}
       <div className="cart-page-header">
         <div className="header-text">
           <h3 style={{ display: "inline" }}>سلّتك:</h3>
@@ -171,7 +181,7 @@ const Cart = () => {
       </div>
 
       {isOrderFormVisible && (
-        <div className="order-form-container">
+        <div ref={orderFormRef} className="order-form-container">
           <div className="order-form-header">
             <h2>طلب جديد</h2>
           </div>
@@ -234,7 +244,11 @@ const Cart = () => {
         </div>
       )}
 
-      <ToastContainer position="top-right" theme="colored" />
+      {notification.message && (
+        <div className={`notification ${notification.type}`}>
+          {notification.message}
+        </div>
+      )}
     </div>
   );
 };
