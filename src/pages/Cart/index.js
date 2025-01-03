@@ -10,6 +10,8 @@ import { useCreateOrderMutation } from "../../features/api/orderApi";
 import CartItem from "../../components/CatrItem";
 import EmptyCart from "../../assets/empty-cart.png";
 import "./style.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -23,14 +25,9 @@ const Cart = () => {
   });
   const [formErrors, setFormErrors] = useState({});
   const [createOrder] = useCreateOrderMutation();
-  const [notification, setNotification] = useState({ message: "", type: "" });
 
   const orderFormRef = useRef(null);
 
-  const showNotification = (message, type) => {
-    setNotification({ message, type });
-    setTimeout(() => setNotification({ message: "", type: "" }), 4000);
-  };
   useEffect(() => {
     if (isOrderFormVisible && orderFormRef.current) {
       orderFormRef.current.scrollIntoView({ behavior: "smooth" });
@@ -79,22 +76,19 @@ const Cart = () => {
 
     try {
       const result = await createOrder(orderData);
-      if (result.data.isSuccess) {
-        showNotification("تم إرسال الطلب بنجاح", "success");
 
+      if (result.data.isSuccess) {
+        toast.success("تم إرسال طلبك بنجاح");
         setTimeout(() => {
           dispatch(clearCart());
           setIsOrderFormVisible(false);
-        }, 500);
+        }, 2500);
       } else {
-        showNotification(
-          `فشل في إنشاء الطلب: ${result.error.message}`,
-          "error"
-        );
+        toast.error(result.error.message);
       }
     } catch (error) {
       console.error("Error creating order:", error);
-      showNotification("فشل في إنشاء الطلب، يرجى المحاولة مرة أخرى.", "error");
+      toast.error("حدث خطأ أثناء إنشاء الطلب.");
     }
   };
 
@@ -115,7 +109,7 @@ const Cart = () => {
 
   const handleRemoveItem = (productId) => {
     dispatch(removeFromCart(productId));
-    showNotification("تم حذف المنتج من السلة.", "success");
+    toast.success("تم حذف المنتج من السلة.");
   };
 
   const handleCloseForm = () => {
@@ -243,12 +237,7 @@ const Cart = () => {
           </form>
         </div>
       )}
-
-      {notification.message && (
-        <div className={`notification ${notification.type}`}>
-          {notification.message}
-        </div>
-      )}
+      <ToastContainer theme="colored" position="top-center" />
     </div>
   );
 };
